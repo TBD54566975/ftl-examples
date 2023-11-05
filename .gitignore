@@ -1,0 +1,9 @@
+.hermit/
+.vscode/
+.idea/
+*.iml
+target/
+build/
+deploy/
+.DS_Store
+/logs/

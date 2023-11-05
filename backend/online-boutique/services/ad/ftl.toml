@@ -1,0 +1,5 @@
+module = "ad"
+language = "go"
+deploy = [
+  "main"
+]
