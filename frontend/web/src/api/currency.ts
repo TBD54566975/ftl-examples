@@ -15,8 +15,8 @@ export interface GetSupportedCurrenciesResponse {
 
 export interface Money {
   currencyCode: string;
-  units: int;
-  nanos: int;
+  units: number;
+  nanos: number;
 }
 
 export interface ConvertRequest {

@@ -8,15 +8,15 @@
 import { toQueryString } from "./utils";
 export interface Money {
   currencyCode: string;
-  units: int;
-  nanos: int;
+  units: number;
+  nanos: number;
 }
 
 export interface CreditCardInfo {
   number: string;
-  cVV: int;
-  expirationYear: int;
-  expirationMonth: int;
+  cVV: number;
+  expirationYear: number;
+  expirationMonth: number;
 }
 
 export interface ChargeRequest {

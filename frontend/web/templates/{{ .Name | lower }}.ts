@@ -11,7 +11,7 @@ import { toQueryString } from "./utils";
 {{- if eq $type "Array" }}{{ template "tstype" .Element }}[]
 {{- else if eq $type "Map" }}Map<{{ template "tstype" .Key }}, {{ template "tstype" .Value }}>
 {{- else if eq $type "DataRef" }}{{ . }}
-{{- else if eq $type "Int" }}int
+{{- else if eq $type "Int" }}number
 {{- else if eq $type "String" }}string
 {{- else -}}{{ . | typename }}{{- end -}}
 {{- end -}}

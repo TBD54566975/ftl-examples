@@ -11,14 +11,14 @@ export interface Address {
   city: string;
   state: string;
   country: string;
-  zipCode: int;
+  zipCode: number;
 }
 
 export interface CreditCardInfo {
   number: string;
-  cVV: int;
-  expirationYear: int;
-  expirationMonth: int;
+  cVV: number;
+  expirationYear: number;
+  expirationMonth: number;
 }
 
 export interface PlaceOrderRequest {
@@ -31,13 +31,13 @@ export interface PlaceOrderRequest {
 
 export interface Money {
   currencyCode: string;
-  units: int;
-  nanos: int;
+  units: number;
+  nanos: number;
 }
 
 export interface Item {
   productID: string;
-  quantity: int;
+  quantity: number;
 }
 
 export interface OrderItem {
