@@ -8,7 +8,7 @@
 import { toQueryString } from "./utils";
 export interface Item {
   productID: string;
-  quantity: int;
+  quantity: number;
 }
 
 export interface AddItemRequest {

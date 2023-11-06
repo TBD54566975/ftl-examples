@@ -11,12 +11,12 @@ export interface Address {
   city: string;
   state: string;
   country: string;
-  zipCode: int;
+  zipCode: number;
 }
 
 export interface Item {
   productID: string;
-  quantity: int;
+  quantity: number;
 }
 
 export interface ShippingRequest {
@@ -26,8 +26,8 @@ export interface ShippingRequest {
 
 export interface Money {
   currencyCode: string;
-  units: int;
-  nanos: int;
+  units: number;
+  nanos: number;
 }
 
 export interface ShipOrderResponse {
