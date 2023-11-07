@@ -5,6 +5,7 @@
 //   / _/  / / / /__
 //  /_/   /_/ /____/            
 //
+// @ts-ignore ignore unused error in generated code
 import { toQueryString } from "./utils";
 export interface ListRequest {
 }
