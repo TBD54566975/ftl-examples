@@ -1,21 +1,10 @@
-import 'dart:io';
-
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:online_boutique/api/ftl_client.dart';
 import 'package:online_boutique/features/home/home_page.dart';
-import 'package:http/http.dart' as http;
 
 void main() {
-  final host = Platform.isAndroid ? '10.0.2.2' : 'localhost:8892';
-
-  FTLHttpClient.initialize(
-    baseUrl: host,
-    httpClient: http.Client(),
-  );
-
   runApp(const ProviderScope(child: App()));
 }
 

@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  mobile:
+    name: Test Mobile
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Init Hermit
+        uses: cashapp/activate-hermit@v1
+      - name: Get dependencies
+        working-directory: ./frontend/mobile
+        run: flutter pub get
+      - name: Analyze
+        working-directory: ./frontend/mobile
+        run: flutter analyze
+      - name: Test
+        working-directory: ./frontend/mobile
+        run: flutter test
+  web:
+    name: Test Web
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Init Hermit
+        uses: cashapp/activate-hermit@v1
+      - name: Get dependencies
+        working-directory: ./frontend/web
+        run: npm install
+      - name: Type check
+        working-directory: ./frontend/web
+        run: tsc
+      - name: Test
+        working-directory: ./frontend/web
+        run: npm run test
