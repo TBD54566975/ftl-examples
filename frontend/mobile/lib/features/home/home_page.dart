@@ -81,7 +81,18 @@ class HomePage extends HookConsumerWidget {
                 );
               },
             ),
-            error: (error, stack) => Text('Error: $error'),
+            error: (error, stack) => Padding(
+              padding: const EdgeInsets.all(16),
+              child: Center(
+                  child: Text(
+                'Error: $error',
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(color: Theme.of(context).colorScheme.error),
+              )),
+            ),
             loading: () => const Center(
               child: CircularProgressIndicator(),
             ),
