@@ -1,3 +1,4 @@
+// ignore_for_file: unused_import
 library ad;
 
 import 'dart:convert';
@@ -52,18 +53,21 @@ class Ad {
 }
 
 class AdResponse {
+  String name;
   List<Ad> ads;
 
-  AdResponse({ required this.ads,  });
+  AdResponse({ required this.name, required this.ads,  });
 
   Map<String, dynamic> toMap() {
     return {
+      'name': ((dynamic v) =>v)(name),
       'ads': ((dynamic v) =>v.map((v) => Ad.fromMap(v)).cast<Ad>().toList())(ads),
     };
   }
 
   factory AdResponse.fromMap(Map<String, dynamic> map) {
     return AdResponse(
+      name: ((dynamic v) => v)(map['name']),
       ads: ((dynamic v) => v.map((v) => Ad.fromMap(v)).cast<Ad>().toList())(map['ads']),
     );
   }
