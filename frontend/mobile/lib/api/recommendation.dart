@@ -1,7 +1,9 @@
-library ad;
+// ignore_for_file: unused_import
+library recommendation;
 
 import 'dart:convert';
 import 'ftl_client.dart';
+import 'productcatalog.dart' as productcatalog;
 
 
 class ListRequest {

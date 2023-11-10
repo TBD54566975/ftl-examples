@@ -1,7 +1,11 @@
-library ad;
+// ignore_for_file: unused_import
+library {{ .Name | lower }};
 
 import 'dart:convert';
 import 'ftl_client.dart';
+{{- range .Imports}}
+import '{{. | lower }}.dart' as {{. | lower}};
+{{- end}}
 
 {{- define "darttype" -}}
 {{- $type := (. | typename ) -}}
@@ -9,6 +13,9 @@ import 'ftl_client.dart';
 {{- else if eq $type "Map" }}Map<{{ template "darttype" .Key }}, {{ template "darttype" .Value }}>
 {{- else if eq $type "DataRef" }}{{ . }}
 {{- else if eq $type "Int" }}int
+{{- else if eq $type "Bool" }}bool
+{{- else if eq $type "Float" }}double
+{{- else if eq $type "Time" }}DateTime
 {{- else -}}{{ . | typename }}{{- end -}}
 {{- end }}
 
@@ -17,9 +24,9 @@ import 'ftl_client.dart';
 {{- if eq $type "Array" -}}
 v.map((v) => {{ template "deserialize" .Element }}).cast<{{ template "darttype" .Element }}>().toList()
 {{- else if eq $type "Map" -}}
-v.map((k, v) => MapEntry(k, {{ template "deserialize" .Value }})),
+v.map((k, v) => MapEntry(k, {{ template "deserialize" .Value }})).cast<{{ template "darttype" .Key }}, {{ template "darttype" .Value }}>()
 {{- else if eq $type "DataRef" -}}
-{{ .Name }}.fromMap(v)
+{{ . }}.fromMap(v)
 {{- else -}}
 v
 {{- end }}
@@ -30,7 +37,7 @@ v
 {{- if eq $type "Array" -}}
 v.map((v) => {{ template "deserialize" .Element }}).cast<{{ template "darttype" .Element }}>().toList()
 {{- else if eq $type "Map" -}}
-v.map((k, v) => MapEntry(k, {{ template "deserialize" .Value }})),
+v.map((k, v) => MapEntry(k, {{ template "deserialize" .Value }})).cast<{{ template "darttype" .Key }}, {{ template "darttype" .Value }}>()
 {{- else if eq $type "DataRef" -}}
 v.toMap()
 {{- else -}}

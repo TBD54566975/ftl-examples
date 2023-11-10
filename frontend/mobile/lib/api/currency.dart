@@ -1,4 +1,5 @@
-library ad;
+// ignore_for_file: unused_import
+library currency;
 
 import 'dart:convert';
 import 'ftl_client.dart';

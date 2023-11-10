@@ -1,7 +1,13 @@
-library ad;
+// ignore_for_file: unused_import
+library checkout;
 
 import 'dart:convert';
 import 'ftl_client.dart';
+import 'productcatalog.dart' as productcatalog;
+import 'currency.dart' as currency;
+import 'shipping.dart' as shipping;
+import 'payment.dart' as payment;
+import 'cart.dart' as cart;
 
 
 class Address {
