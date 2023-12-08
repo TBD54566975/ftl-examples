@@ -9,12 +9,12 @@ class Item {
   String productID;
   int quantity;
 
-  Item({ required this.productID, required this.quantity,  });
+  Item({  required this.productID,  required this.quantity,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'productID': ((dynamic v) =>v)(productID),
-      'quantity': ((dynamic v) =>v)(quantity),
+      'productID': ((dynamic v) => v)(productID),
+      'quantity': ((dynamic v) => v)(quantity),
     };
   }
 
@@ -34,12 +34,12 @@ class AddItemRequest {
   String userID;
   Item item;
 
-  AddItemRequest({ required this.userID, required this.item,  });
+  AddItemRequest({  required this.userID,  required this.item,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'userID': ((dynamic v) =>v)(userID),
-      'item': ((dynamic v) =>v.toMap())(item),
+      'userID': ((dynamic v) => v)(userID),
+      'item': ((dynamic v) => v.toMap())(item),
     };
   }
 
@@ -77,11 +77,11 @@ class AddItemResponse {
 class GetCartRequest {
   String userID;
 
-  GetCartRequest({ required this.userID,  });
+  GetCartRequest({  required this.userID,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'userID': ((dynamic v) =>v)(userID),
+      'userID': ((dynamic v) => v)(userID),
     };
   }
 
@@ -100,12 +100,12 @@ class Cart {
   String userID;
   List<Item> items;
 
-  Cart({ required this.userID, required this.items,  });
+  Cart({  required this.userID,  required this.items,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'userID': ((dynamic v) =>v)(userID),
-      'items': ((dynamic v) =>v.map((v) => Item.fromMap(v)).cast<Item>().toList())(items),
+      'userID': ((dynamic v) => v)(userID),
+      'items': ((dynamic v) => v.map((v) => Item.fromMap(v)).cast<Item>().toList())(items),
     };
   }
 
@@ -124,11 +124,11 @@ class Cart {
 class EmptyCartRequest {
   String userID;
 
-  EmptyCartRequest({ required this.userID,  });
+  EmptyCartRequest({  required this.userID,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'userID': ((dynamic v) =>v)(userID),
+      'userID': ((dynamic v) => v)(userID),
     };
   }
 
@@ -179,7 +179,7 @@ class CartClient {
   }
 
   Future<Cart> getCart(GetCartRequest request) async {
-    final response = await ftlClient.get('/cart', request: request.toMap());
+    final response = await ftlClient.get('/cart', requestJson: request.toJson());
     if (response.statusCode == 200) {
       return Cart.fromJson(response.body);
     } else {

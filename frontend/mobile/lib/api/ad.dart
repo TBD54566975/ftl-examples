@@ -8,11 +8,11 @@ import 'ftl_client.dart';
 class AdRequest {
   List<String> contextKeys;
 
-  AdRequest({ required this.contextKeys,  });
+  AdRequest({  required this.contextKeys,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'contextKeys': ((dynamic v) =>v.map((v) => v).cast<String>().toList())(contextKeys),
+      'contextKeys': ((dynamic v) => v.map((v) => v).cast<String>().toList())(contextKeys),
     };
   }
 
@@ -31,12 +31,12 @@ class Ad {
   String redirectURL;
   String text;
 
-  Ad({ required this.redirectURL, required this.text,  });
+  Ad({  required this.redirectURL,  required this.text,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'redirectURL': ((dynamic v) =>v)(redirectURL),
-      'text': ((dynamic v) =>v)(text),
+      'redirectURL': ((dynamic v) => v)(redirectURL),
+      'text': ((dynamic v) => v)(text),
     };
   }
 
@@ -56,12 +56,12 @@ class AdResponse {
   String name;
   List<Ad> ads;
 
-  AdResponse({ required this.name, required this.ads,  });
+  AdResponse({  required this.name,  required this.ads,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'name': ((dynamic v) =>v)(name),
-      'ads': ((dynamic v) =>v.map((v) => Ad.fromMap(v)).cast<Ad>().toList())(ads),
+      'name': ((dynamic v) => v)(name),
+      'ads': ((dynamic v) => v.map((v) => Ad.fromMap(v)).cast<Ad>().toList())(ads),
     };
   }
 
@@ -85,7 +85,7 @@ class AdClient {
 
 
   Future<AdResponse> get(AdRequest request) async {
-    final response = await ftlClient.get('/ad', request: request.toMap());
+    final response = await ftlClient.get('/ad', requestJson: request.toJson());
     if (response.statusCode == 200) {
       return AdResponse.fromJson(response.body);
     } else {

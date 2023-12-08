@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Product, ProductcatalogClient } from '../../api/productcatalog'
 import { useParams } from 'react-router-dom'
 import { formatMoney } from '../../utils/money.utils'
+import { Product, ProductcatalogClient } from '../../api/productcatalog'
 
 export const ProductPage = () => {
   const { productId } = useParams()

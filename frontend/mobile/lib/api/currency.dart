@@ -27,11 +27,11 @@ class GetSupportedCurrenciesRequest {
 class GetSupportedCurrenciesResponse {
   List<String> currencyCodes;
 
-  GetSupportedCurrenciesResponse({ required this.currencyCodes,  });
+  GetSupportedCurrenciesResponse({  required this.currencyCodes,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'currencyCodes': ((dynamic v) =>v.map((v) => v).cast<String>().toList())(currencyCodes),
+      'currencyCodes': ((dynamic v) => v.map((v) => v).cast<String>().toList())(currencyCodes),
     };
   }
 
@@ -51,13 +51,13 @@ class Money {
   int units;
   int nanos;
 
-  Money({ required this.currencyCode, required this.units, required this.nanos,  });
+  Money({  required this.currencyCode,  required this.units,  required this.nanos,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'currencyCode': ((dynamic v) =>v)(currencyCode),
-      'units': ((dynamic v) =>v)(units),
-      'nanos': ((dynamic v) =>v)(nanos),
+      'currencyCode': ((dynamic v) => v)(currencyCode),
+      'units': ((dynamic v) => v)(units),
+      'nanos': ((dynamic v) => v)(nanos),
     };
   }
 
@@ -78,12 +78,12 @@ class ConvertRequest {
   Money from;
   String toCode;
 
-  ConvertRequest({ required this.from, required this.toCode,  });
+  ConvertRequest({  required this.from,  required this.toCode,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'from': ((dynamic v) =>v.toMap())(from),
-      'toCode': ((dynamic v) =>v)(toCode),
+      'from': ((dynamic v) => v.toMap())(from),
+      'toCode': ((dynamic v) => v)(toCode),
     };
   }
 
@@ -107,7 +107,7 @@ class CurrencyClient {
 
 
   Future<GetSupportedCurrenciesResponse> getSupportedCurrencies(GetSupportedCurrenciesRequest request) async {
-    final response = await ftlClient.get('/currency/supported', request: request.toMap());
+    final response = await ftlClient.get('/currency/supported', requestJson: request.toJson());
     if (response.statusCode == 200) {
       return GetSupportedCurrenciesResponse.fromJson(response.body);
     } else {
