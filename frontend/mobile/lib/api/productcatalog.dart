@@ -3,6 +3,7 @@ library productcatalog;
 
 import 'dart:convert';
 import 'ftl_client.dart';
+import 'currency.dart' as currency;
 
 
 class ListRequest {
@@ -24,52 +25,24 @@ class ListRequest {
   factory ListRequest.fromJson(String source) => ListRequest.fromMap(json.decode(source));
 }
 
-class Money {
-  String currencyCode;
-  int units;
-  int nanos;
-
-  Money({ required this.currencyCode, required this.units, required this.nanos,  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'currencyCode': ((dynamic v) =>v)(currencyCode),
-      'units': ((dynamic v) =>v)(units),
-      'nanos': ((dynamic v) =>v)(nanos),
-    };
-  }
-
-  factory Money.fromMap(Map<String, dynamic> map) {
-    return Money(
-      currencyCode: ((dynamic v) => v)(map['currencyCode']),
-      units: ((dynamic v) => v)(map['units']),
-      nanos: ((dynamic v) => v)(map['nanos']),
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Money.fromJson(String source) => Money.fromMap(json.decode(source));
-}
-
 class Product {
   String id;
   String name;
   String description;
   String picture;
-  Money priceUSD;
+  currency.Money priceUSD;
   List<String> categories;
 
-  Product({ required this.id, required this.name, required this.description, required this.picture, required this.priceUSD, required this.categories,  });
+  Product({  required this.id,  required this.name,  required this.description,  required this.picture,  required this.priceUSD,  required this.categories,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'id': ((dynamic v) =>v)(id),
-      'name': ((dynamic v) =>v)(name),
-      'description': ((dynamic v) =>v)(description),
-      'picture': ((dynamic v) =>v)(picture),
-      'priceUSD': ((dynamic v) =>v.toMap())(priceUSD),
-      'categories': ((dynamic v) =>v.map((v) => v).cast<String>().toList())(categories),
+      'id': ((dynamic v) => v)(id),
+      'name': ((dynamic v) => v)(name),
+      'description': ((dynamic v) => v)(description),
+      'picture': ((dynamic v) => v)(picture),
+      'priceUSD': ((dynamic v) => v.toMap())(priceUSD),
+      'categories': ((dynamic v) => v.map((v) => v).cast<String>().toList())(categories),
     };
   }
 
@@ -79,7 +52,7 @@ class Product {
       name: ((dynamic v) => v)(map['name']),
       description: ((dynamic v) => v)(map['description']),
       picture: ((dynamic v) => v)(map['picture']),
-      priceUSD: ((dynamic v) => Money.fromMap(v))(map['priceUSD']),
+      priceUSD: ((dynamic v) => currency.Money.fromMap(v))(map['priceUSD']),
       categories: ((dynamic v) => v.map((v) => v).cast<String>().toList())(map['categories']),
     );
   }
@@ -92,11 +65,11 @@ class Product {
 class ListResponse {
   List<Product> products;
 
-  ListResponse({ required this.products,  });
+  ListResponse({  required this.products,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'products': ((dynamic v) =>v.map((v) => Product.fromMap(v)).cast<Product>().toList())(products),
+      'products': ((dynamic v) => v.map((v) => Product.fromMap(v)).cast<Product>().toList())(products),
     };
   }
 
@@ -114,11 +87,11 @@ class ListResponse {
 class GetRequest {
   String id;
 
-  GetRequest({ required this.id,  });
+  GetRequest({  required this.id,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'id': ((dynamic v) =>v)(id),
+      'id': ((dynamic v) => v)(id),
     };
   }
 
@@ -136,11 +109,11 @@ class GetRequest {
 class SearchRequest {
   String query;
 
-  SearchRequest({ required this.query,  });
+  SearchRequest({  required this.query,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'query': ((dynamic v) =>v)(query),
+      'query': ((dynamic v) => v)(query),
     };
   }
 
@@ -158,11 +131,11 @@ class SearchRequest {
 class SearchResponse {
   List<Product> results;
 
-  SearchResponse({ required this.results,  });
+  SearchResponse({  required this.results,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'results': ((dynamic v) =>v.map((v) => Product.fromMap(v)).cast<Product>().toList())(results),
+      'results': ((dynamic v) => v.map((v) => Product.fromMap(v)).cast<Product>().toList())(results),
     };
   }
 
@@ -185,7 +158,7 @@ class ProductcatalogClient {
 
 
   Future<ListResponse> list(ListRequest request) async {
-    final response = await ftlClient.get('/productcatalog', request: request.toMap());
+    final response = await ftlClient.get('/productcatalog', requestJson: request.toJson());
     if (response.statusCode == 200) {
       return ListResponse.fromJson(response.body);
     } else {
@@ -194,7 +167,7 @@ class ProductcatalogClient {
   }
 
   Future<Product> get(GetRequest request) async {
-    final response = await ftlClient.get('/productcatalog/id', request: request.toMap());
+    final response = await ftlClient.get('/productcatalog/${request.id}', requestJson: request.toJson());
     if (response.statusCode == 200) {
       return Product.fromJson(response.body);
     } else {

@@ -10,12 +10,12 @@ class ListRequest {
   String userID;
   List<String> userProductIDs;
 
-  ListRequest({ required this.userID, required this.userProductIDs,  });
+  ListRequest({  required this.userID,  required this.userProductIDs,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'userID': ((dynamic v) =>v)(userID),
-      'userProductIDs': ((dynamic v) =>v.map((v) => v).cast<String>().toList())(userProductIDs),
+      'userID': ((dynamic v) => v)(userID),
+      'userProductIDs': ((dynamic v) => v.map((v) => v).cast<String>().toList())(userProductIDs),
     };
   }
 
@@ -34,11 +34,11 @@ class ListRequest {
 class ListResponse {
   List<String> productIDs;
 
-  ListResponse({ required this.productIDs,  });
+  ListResponse({  required this.productIDs,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'productIDs': ((dynamic v) =>v.map((v) => v).cast<String>().toList())(productIDs),
+      'productIDs': ((dynamic v) => v.map((v) => v).cast<String>().toList())(productIDs),
     };
   }
 
@@ -61,7 +61,7 @@ class RecommendationClient {
 
 
   Future<ListResponse> list(ListRequest request) async {
-    final response = await ftlClient.get('/recommendation', request: request.toMap());
+    final response = await ftlClient.get('/recommendation', requestJson: request.toJson());
     if (response.statusCode == 200) {
       return ListResponse.fromJson(response.body);
     } else {

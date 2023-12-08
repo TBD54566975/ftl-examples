@@ -21,14 +21,14 @@ class FTLHttpClient {
 
   Future<http.Response> get(
     String path, {
-    Map<String, dynamic>? request,
+    String? requestJson,
     Map<String, String>? headers,
   }) {
     Uri uri;
-    if (request == null || request.isEmpty) {
+    if (requestJson == null || requestJson.isEmpty) {
       uri = Uri.http("localhost:8892", '/ingress$path');
     } else {
-      uri = Uri.http("localhost:8892", '/ingress$path', request);
+      uri = Uri.http("localhost:8892", '/ingress$path', {'@json': requestJson});
     }
     return httpClient.get(uri, headers: headers);
   }

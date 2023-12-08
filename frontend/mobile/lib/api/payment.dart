@@ -3,35 +3,8 @@ library payment;
 
 import 'dart:convert';
 import 'ftl_client.dart';
+import 'currency.dart' as currency;
 
-
-class Money {
-  String currencyCode;
-  int units;
-  int nanos;
-
-  Money({ required this.currencyCode, required this.units, required this.nanos,  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'currencyCode': ((dynamic v) =>v)(currencyCode),
-      'units': ((dynamic v) =>v)(units),
-      'nanos': ((dynamic v) =>v)(nanos),
-    };
-  }
-
-  factory Money.fromMap(Map<String, dynamic> map) {
-    return Money(
-      currencyCode: ((dynamic v) => v)(map['currencyCode']),
-      units: ((dynamic v) => v)(map['units']),
-      nanos: ((dynamic v) => v)(map['nanos']),
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory Money.fromJson(String source) => Money.fromMap(json.decode(source));
-}
 
 class CreditCardInfo {
   String number;
@@ -39,14 +12,14 @@ class CreditCardInfo {
   int expirationYear;
   int expirationMonth;
 
-  CreditCardInfo({ required this.number, required this.cVV, required this.expirationYear, required this.expirationMonth,  });
+  CreditCardInfo({  required this.number,  required this.cVV,  required this.expirationYear,  required this.expirationMonth,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'number': ((dynamic v) =>v)(number),
-      'cVV': ((dynamic v) =>v)(cVV),
-      'expirationYear': ((dynamic v) =>v)(expirationYear),
-      'expirationMonth': ((dynamic v) =>v)(expirationMonth),
+      'number': ((dynamic v) => v)(number),
+      'cVV': ((dynamic v) => v)(cVV),
+      'expirationYear': ((dynamic v) => v)(expirationYear),
+      'expirationMonth': ((dynamic v) => v)(expirationMonth),
     };
   }
 
@@ -65,21 +38,21 @@ class CreditCardInfo {
 }
 
 class ChargeRequest {
-  Money amount;
+  currency.Money amount;
   CreditCardInfo creditCard;
 
-  ChargeRequest({ required this.amount, required this.creditCard,  });
+  ChargeRequest({  required this.amount,  required this.creditCard,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'amount': ((dynamic v) =>v.toMap())(amount),
-      'creditCard': ((dynamic v) =>v.toMap())(creditCard),
+      'amount': ((dynamic v) => v.toMap())(amount),
+      'creditCard': ((dynamic v) => v.toMap())(creditCard),
     };
   }
 
   factory ChargeRequest.fromMap(Map<String, dynamic> map) {
     return ChargeRequest(
-      amount: ((dynamic v) => Money.fromMap(v))(map['amount']),
+      amount: ((dynamic v) => currency.Money.fromMap(v))(map['amount']),
       creditCard: ((dynamic v) => CreditCardInfo.fromMap(v))(map['creditCard']),
     );
   }
@@ -92,11 +65,11 @@ class ChargeRequest {
 class ChargeResponse {
   String transactionID;
 
-  ChargeResponse({ required this.transactionID,  });
+  ChargeResponse({  required this.transactionID,  });
 
   Map<String, dynamic> toMap() {
     return {
-      'transactionID': ((dynamic v) =>v)(transactionID),
+      'transactionID': ((dynamic v) => v)(transactionID),
     };
   }
 
