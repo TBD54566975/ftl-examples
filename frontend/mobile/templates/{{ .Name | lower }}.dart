@@ -13,7 +13,7 @@ class {{ .Name | camel }} {
   {{ .Type | dartType }} {{ .Name }};
 {{- end }}
 
-  {{ .Name | camel }}({{ if .Fields }}{ {{ range .Fields }}{{ if not (eq (.Type | typeName) "Optional")}} required{{end}} this.{{ .Name }}, {{ end}} }{{ end }});
+  {{ .Name | camel }}({{ if .Fields }}{ {{ range .Fields }}{{ if not (eq (.Type | typename) "Optional")}} required{{end}} this.{{ .Name }}, {{ end}} }{{ end }});
 
   Map<String, dynamic> toMap() {
     return {
@@ -44,7 +44,7 @@ class {{ .Name | camel }}Client {
 {{ range .Verbs }}
 {{- $verb := . -}}
 {{- range .Metadata }}
-{{ if eq "MetadataIngress" (. | typeName) }}
+{{ if eq "MetadataIngress" (. | typename) }}
   Future<{{ $verb.Response | dartType }}> {{ $verb.Name }}({{ $verb.Request | dartType }} request) async {
     {{ if eq .Method "GET" -}}
     final response = await ftlClient.{{ .Method | lower }}('{{ $verb | url }}', requestJson: request.toJson());
