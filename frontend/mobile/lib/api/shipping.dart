@@ -2,9 +2,10 @@
 library shipping;
 
 import 'dart:convert';
+import 'dart:typed_data';
 import 'ftl_client.dart';
-import 'currency.dart' as currency;
 import 'cart.dart' as cart;
+import 'currency.dart' as currency;
 
 
 class Address {

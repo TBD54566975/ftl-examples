@@ -2,6 +2,7 @@
 library productcatalog;
 
 import 'dart:convert';
+import 'dart:typed_data';
 import 'ftl_client.dart';
 import 'currency.dart' as currency;
 
@@ -167,7 +168,7 @@ class ProductcatalogClient {
   }
 
   Future<Product> get(GetRequest request) async {
-    final response = await ftlClient.get('/productcatalog/${request.id}', requestJson: request.toJson());
+    final response = await ftlClient.get('/productcatalog/id', requestJson: request.toJson());
     if (response.statusCode == 200) {
       return Product.fromJson(response.body);
     } else {

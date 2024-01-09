@@ -22,6 +22,9 @@ function dartType(t) {
 
     case "Array":
       return `List<${dartType(t.element)}>`;
+    
+    case "Bytes":
+      return `Uint8List`;
 
     case "VerbRef":
     case "DataRef":
@@ -71,7 +74,7 @@ function serialize(t) {
 }
 
 function url(verb) {
-  let path = verb.metadata[0].path;
+  let path = '/' + verb.metadata[0].path.join("/");
   const method = verb.metadata[0].method;
 
   return path.replace(/{(.*?)}/g, (match, fieldName) => {
