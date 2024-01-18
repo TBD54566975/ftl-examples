@@ -2,6 +2,7 @@
 library cart;
 
 import 'dart:convert';
+import 'dart:typed_data';
 import 'ftl_client.dart';
 
 
@@ -105,7 +106,7 @@ class Cart {
   Map<String, dynamic> toMap() {
     return {
       'userID': ((dynamic v) => v)(userID),
-      'items': ((dynamic v) => v.map((v) => Item.fromMap(v)).cast<Item>().toList())(items),
+      'items': ((dynamic v) => v.map((v) => v.toMap()).cast<Item>().toList())(items),
     };
   }
 

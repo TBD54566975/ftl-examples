@@ -2,6 +2,7 @@
 library recommendation;
 
 import 'dart:convert';
+import 'dart:typed_data';
 import 'ftl_client.dart';
 import 'productcatalog.dart' as productcatalog;
 

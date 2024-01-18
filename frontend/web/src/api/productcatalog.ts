@@ -62,7 +62,7 @@ export class ProductcatalogClient {
   }
 
   public async get(request: GetRequest): Promise<Product> {
-    const path = `/productcatalog/${request.id}?@json=${encodeURIComponent(JSON.stringify(request))}`;
+    const path = `/productcatalog/id?@json=${encodeURIComponent(JSON.stringify(request))}`;
     const response = await fetch(`${this.baseUrl}${path}`, {
       method: 'GET',
       headers: {

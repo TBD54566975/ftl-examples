@@ -2,9 +2,10 @@
 library shipping;
 
 import 'dart:convert';
+import 'dart:typed_data';
 import 'ftl_client.dart';
-import 'currency.dart' as currency;
 import 'cart.dart' as cart;
+import 'currency.dart' as currency;
 
 
 class Address {
@@ -50,7 +51,7 @@ class ShippingRequest {
   Map<String, dynamic> toMap() {
     return {
       'address': ((dynamic v) => v.toMap())(address),
-      'items': ((dynamic v) => v.map((v) => cart.Item.fromMap(v)).cast<cart.Item>().toList())(items),
+      'items': ((dynamic v) => v.map((v) => v.toMap()).cast<cart.Item>().toList())(items),
     };
   }
 

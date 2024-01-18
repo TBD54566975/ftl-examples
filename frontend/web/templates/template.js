@@ -23,6 +23,9 @@ function tsType(t) {
     case 'Array':
       return `${tsType(t.element)}[]`
 
+    case "Bytes":
+      return "Uint8Array";
+
     case 'VerbRef':
     case 'DataRef':
       if (context.name === t.module) {
@@ -57,10 +60,10 @@ function deserialize(t) {
 function serialize(t) {
   switch (typename(t)) {
     case 'Array':
-      return `v.map((v) => ${deserialize(t.element)}).cast<${tsType(t.element)}>().toList()`
+      return `v.map((v) => ${serialize(t.element)}).cast<${tsType(t.element)}>().toList()`
 
     case 'Map':
-      return `v.map((k, v) => MapEntry(k, ${deserialize(t.value)})).cast<${tsType(t.key)}, ${tsType(t.value)}>()`
+      return `v.map((k, v) => MapEntry(k, ${serialize(t.value)})).cast<${tsType(t.key)}, ${tsType(t.value)}>()`
 
     case 'DataRef':
       return 'v.toMap()'
@@ -71,7 +74,7 @@ function serialize(t) {
 }
 
 function url(verb) {
-  let path = verb.metadata[0].path
+  let path = "/" + verb.metadata[0].path.join("/");
   const method = verb.metadata[0].method
 
   path = path.replace(/{(.*?)}/g, (match, fieldName) => {
