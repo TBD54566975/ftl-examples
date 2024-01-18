@@ -22,6 +22,9 @@ function dartType(t) {
 
     case "Array":
       return `List<${dartType(t.element)}>`;
+    
+    case "Bytes":
+      return `Uint8List`;
 
     case "VerbRef":
     case "DataRef":
@@ -57,10 +60,10 @@ function deserialize(t) {
 function serialize(t) {
   switch (typename(t)) {
     case "Array":
-      return `v.map((v) => ${deserialize(t.element)}).cast<${dartType(t.element)}>().toList()`;
+      return `v.map((v) => ${serialize(t.element)}).cast<${dartType(t.element)}>().toList()`;
 
     case "Map":
-      return `v.map((k, v) => MapEntry(k, ${deserialize(t.value)})).cast<${dartType(t.key)}, ${dartType(t.value)}>()`;
+      return `v.map((k, v) => MapEntry(k, ${serialize(t.value)})).cast<${dartType(t.key)}, ${dartType(t.value)}>()`;
 
     case "DataRef":
       return "v.toMap()";
@@ -71,8 +74,7 @@ function serialize(t) {
 }
 
 function url(verb) {
-  let path = verb.metadata[0].path;
-  const method = verb.metadata[0].method;
+  let path = '/' + verb.metadata[0].path.join("/");
 
   return path.replace(/{(.*?)}/g, (match, fieldName) => {
     return "$" + `{request.${fieldName}}`;

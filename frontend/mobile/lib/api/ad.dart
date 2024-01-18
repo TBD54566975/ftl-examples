@@ -2,6 +2,7 @@
 library ad;
 
 import 'dart:convert';
+import 'dart:typed_data';
 import 'ftl_client.dart';
 
 
@@ -61,7 +62,7 @@ class AdResponse {
   Map<String, dynamic> toMap() {
     return {
       'name': ((dynamic v) => v)(name),
-      'ads': ((dynamic v) => v.map((v) => Ad.fromMap(v)).cast<Ad>().toList())(ads),
+      'ads': ((dynamic v) => v.map((v) => v.toMap()).cast<Ad>().toList())(ads),
     };
   }
 

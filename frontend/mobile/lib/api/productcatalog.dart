@@ -2,6 +2,7 @@
 library productcatalog;
 
 import 'dart:convert';
+import 'dart:typed_data';
 import 'ftl_client.dart';
 import 'currency.dart' as currency;
 
@@ -69,7 +70,7 @@ class ListResponse {
 
   Map<String, dynamic> toMap() {
     return {
-      'products': ((dynamic v) => v.map((v) => Product.fromMap(v)).cast<Product>().toList())(products),
+      'products': ((dynamic v) => v.map((v) => v.toMap()).cast<Product>().toList())(products),
     };
   }
 
@@ -135,7 +136,7 @@ class SearchResponse {
 
   Map<String, dynamic> toMap() {
     return {
-      'results': ((dynamic v) => v.map((v) => Product.fromMap(v)).cast<Product>().toList())(results),
+      'results': ((dynamic v) => v.map((v) => v.toMap()).cast<Product>().toList())(results),
     };
   }
 
@@ -167,7 +168,7 @@ class ProductcatalogClient {
   }
 
   Future<Product> get(GetRequest request) async {
-    final response = await ftlClient.get('/productcatalog/${request.id}', requestJson: request.toJson());
+    final response = await ftlClient.get('/productcatalog/id', requestJson: request.toJson());
     if (response.statusCode == 200) {
       return Product.fromJson(response.body);
     } else {
