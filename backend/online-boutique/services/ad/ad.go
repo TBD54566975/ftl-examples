@@ -6,9 +6,8 @@ import (
 	_ "embed"
 	"math/rand"
 
-	"golang.org/x/exp/maps"
-
 	"github.com/TBD54566975/ftl/examples/online-boutique/common"
+	"golang.org/x/exp/maps"
 )
 
 const maxAdsToServe = 2
@@ -29,7 +28,8 @@ type Ad struct {
 }
 
 type AdResponse struct {
-	Ads []Ad
+	Name string
+	Ads  []Ad
 }
 
 //ftl:verb

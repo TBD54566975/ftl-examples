@@ -1,31 +1,32 @@
-# $PROJECT_NAME README
-
-Congrats, project leads! You got a new project to grow!
-
-This stub is meant to help you form a strong community around your work. It's yours to adapt, and may 
-diverge from this initial structure. Just keep the files seeded in this repo, and the rest is yours to evolve! 
+# FTL examples
 
 ## Introduction
 
-Orient users to the project here. This is a good place to start with an assumption
-that the user knows very little - so start with the Big Picture and show how this
-project fits into it. It may be good to reference/link the broader architecture in the
-`collaboration` repo or the developer site here.
+This repo is designed to show how to use FTL to build an online boutique backend with a mobile (Flutter) app and React frontend.
 
-Then maybe a dive into what this project does.
+## Running
 
-Diagrams and other visuals are helpful here. Perhaps code snippets showing usage.
+* Install [Hermit](https://cashapp.github.io/hermit/usage/get-started/) and related [shell_hooks]([shell hooks](https://cashapp.github.io/hermit/usage/shell/)). 
 
-Project leads should complete, alongside this `README`:
-* [CODEOWNERS](./CODEOWNERS) - set project lead(s)
-* [CONTRIBUTING.md](./CONTRIBUTING.md) - Fill out how to: install prereqs, build, test, run, access CI, chat, discuss, file issues
-* [Bug-report.md](.github/ISSUE_TEMPLATE/bug-report.md) - Fill out `Assignees` add codeowners @names
-* [config.yml](.github/ISSUE_TEMPLATE/config.yml) - remove "(/add your discord channel..)" and replace the url with your Discord channel if applicable
+>[NOTE] This will install [Just](https://github.com/casey/just) for you.
 
-The other files in this template repo may be used as-is:
-* [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)
-* [GOVERNANCE.md](./GOVERNANCE.md)
-* [LICENSE](./LICENSE)
+To see a list of commands that can be run, run `just --list` in the root of the project.
+
+### Start FTL, code gen, and backend services with hot-reloading
+
+```bash
+just dev
+```
+
+### Start the React web app
+
+```bash
+just web
+```
+
+### Flutter app
+
+Flutter is better run via an [IDE](https://docs.flutter.dev/get-started/editor?tab=vscode) like VSCode or Android Studio.
 
 ## Project Resources
 
