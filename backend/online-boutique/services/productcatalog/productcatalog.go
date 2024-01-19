@@ -4,12 +4,12 @@ package productcatalog
 import (
 	"context"
 	_ "embed"
+	"fmt"
 	"strings"
 
-	"github.com/alecthomas/errors"
+	"ftl/currency"
 
 	"github.com/TBD54566975/ftl/examples/online-boutique/common"
-	"github.com/TBD54566975/ftl/examples/online-boutique/common/money"
 )
 
 var (
@@ -19,11 +19,11 @@ var (
 )
 
 type Product struct {
-	ID          string      `json:"id"`
-	Name        string      `json:"name"`
-	Description string      `json:"description"`
-	Picture     string      `json:"picture"`
-	PriceUSD    money.Money `json:"priceUSD"`
+	ID          string         `json:"id"`
+	Name        string         `json:"name"`
+	Description string         `json:"description"`
+	Picture     string         `json:"picture"`
+	PriceUSD    currency.Money `json:"priceUSD"`
 
 	// Categories such as "clothing" or "kitchen" that can be used to look up
 	// other related products.
@@ -47,14 +47,14 @@ type GetRequest struct {
 }
 
 //ftl:verb
-//ftl:ingress GET /productcatalog/id
+//ftl:ingress GET /productcatalog/{id}
 func Get(ctx context.Context, req GetRequest) (Product, error) {
 	for _, p := range database {
 		if p.ID == req.ID {
 			return p, nil
 		}
 	}
-	return Product{}, errors.Errorf("product not found: %q", req.ID)
+	return Product{}, fmt.Errorf("product not found: %q", req.ID)
 }
 
 type SearchRequest struct {

@@ -7,3 +7,9 @@ build/
 deploy/
 .DS_Store
 /logs/
+generated_ftl_module.go
+*.zip
+dist/
+go.work
+go.work.sum
+_ftl/

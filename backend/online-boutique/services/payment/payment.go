@@ -9,7 +9,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/TBD54566975/ftl/examples/online-boutique/common/money"
+	"ftl/currency"
 )
 
 type InvalidCreditCardErr struct{}
@@ -43,7 +43,7 @@ func (c CreditCardInfo) LastFour() string {
 }
 
 type ChargeRequest struct {
-	Amount     money.Money
+	Amount     currency.Money
 	CreditCard CreditCardInfo
 }
 

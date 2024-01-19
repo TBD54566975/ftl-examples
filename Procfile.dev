@@ -1,0 +1,4 @@
+ftl: ftl serve --recreate --allow-origins '*'
+backend: ftl dev backend/online-boutique/services
+mobile_code_gen: ftl schema generate frontend/mobile/templates/ frontend/mobile/lib/api --watch=5s
+web_code_gen: ftl schema generate frontend/web/templates/ frontend/web/src/api --watch=5s

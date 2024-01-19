@@ -3,11 +3,11 @@ package recommendation
 
 import (
 	"context"
+	"fmt"
 	"math/rand"
 
-	"github.com/alecthomas/errors"
+	"ftl/productcatalog"
 
-	"github.com/TBD54566975/ftl/examples/online-boutique/services/productcatalog"
 	ftl "github.com/TBD54566975/ftl/go-runtime/sdk"
 )
 
@@ -26,7 +26,7 @@ func List(ctx context.Context, req ListRequest) (ListResponse, error) {
 
 	catalog, err := ftl.Call(ctx, productcatalog.List, productcatalog.ListRequest{})
 	if err != nil {
-		return ListResponse{}, errors.Wrap(err, "failed to retrieve product catalog")
+		return ListResponse{}, fmt.Errorf("%s: %w", "failed to retrieve product catalog", err)
 	}
 
 	// Remove user-provided products from the catalog, to avoid recommending
@@ -37,10 +37,10 @@ func List(ctx context.Context, req ListRequest) (ListResponse, error) {
 	}
 	filtered := make([]string, 0, len(catalog.Products))
 	for _, product := range catalog.Products {
-		if _, ok := userIDs[product.ID]; ok {
+		if _, ok := userIDs[product.Id]; ok {
 			continue
 		}
-		filtered = append(filtered, product.ID)
+		filtered = append(filtered, product.Id)
 	}
 
 	// Sample from filtered products and return them.
