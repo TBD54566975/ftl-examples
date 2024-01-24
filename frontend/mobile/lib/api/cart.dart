@@ -6,7 +6,7 @@ import 'dart:typed_data';
 import 'ftl_client.dart';
 
 
-class Item {
+class Item{
   String productID;
   int quantity;
 
@@ -31,7 +31,7 @@ class Item {
   factory Item.fromJson(String source) => Item.fromMap(json.decode(source));
 }
 
-class AddItemRequest {
+class AddItemRequest{
   String userID;
   Item item;
 
@@ -56,7 +56,7 @@ class AddItemRequest {
   factory AddItemRequest.fromJson(String source) => AddItemRequest.fromMap(json.decode(source));
 }
 
-class AddItemResponse {
+class AddItemResponse{
 
   AddItemResponse();
 
@@ -75,7 +75,7 @@ class AddItemResponse {
   factory AddItemResponse.fromJson(String source) => AddItemResponse.fromMap(json.decode(source));
 }
 
-class GetCartRequest {
+class GetCartRequest{
   String userID;
 
   GetCartRequest({  required this.userID,  });
@@ -97,7 +97,7 @@ class GetCartRequest {
   factory GetCartRequest.fromJson(String source) => GetCartRequest.fromMap(json.decode(source));
 }
 
-class Cart {
+class Cart{
   String userID;
   List<Item> items;
 
@@ -122,7 +122,7 @@ class Cart {
   factory Cart.fromJson(String source) => Cart.fromMap(json.decode(source));
 }
 
-class EmptyCartRequest {
+class EmptyCartRequest{
   String userID;
 
   EmptyCartRequest({  required this.userID,  });
@@ -144,7 +144,7 @@ class EmptyCartRequest {
   factory EmptyCartRequest.fromJson(String source) => EmptyCartRequest.fromMap(json.decode(source));
 }
 
-class EmptyCartResponse {
+class EmptyCartResponse{
 
   EmptyCartResponse();
 

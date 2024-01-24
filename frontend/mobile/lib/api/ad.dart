@@ -6,7 +6,7 @@ import 'dart:typed_data';
 import 'ftl_client.dart';
 
 
-class AdRequest {
+class AdRequest{
   List<String> contextKeys;
 
   AdRequest({  required this.contextKeys,  });
@@ -28,7 +28,7 @@ class AdRequest {
   factory AdRequest.fromJson(String source) => AdRequest.fromMap(json.decode(source));
 }
 
-class Ad {
+class Ad{
   String redirectURL;
   String text;
 
@@ -53,7 +53,7 @@ class Ad {
   factory Ad.fromJson(String source) => Ad.fromMap(json.decode(source));
 }
 
-class AdResponse {
+class AdResponse{
   String name;
   List<Ad> ads;
 

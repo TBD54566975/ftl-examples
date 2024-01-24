@@ -11,7 +11,7 @@ import 'productcatalog.dart' as productcatalog;
 import 'shipping.dart' as shipping;
 
 
-class PlaceOrderRequest {
+class PlaceOrderRequest{
   String userID;
   String userCurrency;
   shipping.Address address;
@@ -45,7 +45,7 @@ class PlaceOrderRequest {
   factory PlaceOrderRequest.fromJson(String source) => PlaceOrderRequest.fromMap(json.decode(source));
 }
 
-class OrderItem {
+class OrderItem{
   cart.Item item;
   currency.Money cost;
 
@@ -70,7 +70,7 @@ class OrderItem {
   factory OrderItem.fromJson(String source) => OrderItem.fromMap(json.decode(source));
 }
 
-class Order {
+class Order{
   String id;
   String shippingTrackingID;
   currency.Money shippingCost;

@@ -31,7 +31,13 @@ function dartType(t) {
       if (context.name === t.module) {
         return t.name;
       }
+      if (t.typeParameters && t.typeParameters.length > 0) {
+        return `${t.module}.${t.name}${dartTypeParameters(t.typeParameters)}`
+      }
       return `${t.module}.${t.name}`;
+
+    case "TypeParameter":
+      return t.name;
 
     case "Optional":
       return dartType(t.type) + "?";
@@ -39,6 +45,14 @@ function dartType(t) {
     default:
       throw new Error(`Unspported FTL type: ${typename(t)}`);
   }
+}
+
+function dartTypeParameters (t) {
+  if (t.length == 0) {
+    return "";
+  }
+
+  return `<${t.map((p) => dartType(p)).join(", ")}>`;
 }
 
 function deserialize(t) {

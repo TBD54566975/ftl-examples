@@ -7,7 +7,7 @@ import 'ftl_client.dart';
 import 'currency.dart' as currency;
 
 
-class ListRequest {
+class ListRequest{
 
   ListRequest();
 
@@ -26,7 +26,7 @@ class ListRequest {
   factory ListRequest.fromJson(String source) => ListRequest.fromMap(json.decode(source));
 }
 
-class Product {
+class Product{
   String id;
   String name;
   String description;
@@ -63,7 +63,7 @@ class Product {
   factory Product.fromJson(String source) => Product.fromMap(json.decode(source));
 }
 
-class ListResponse {
+class ListResponse{
   List<Product> products;
 
   ListResponse({  required this.products,  });
@@ -85,7 +85,7 @@ class ListResponse {
   factory ListResponse.fromJson(String source) => ListResponse.fromMap(json.decode(source));
 }
 
-class GetRequest {
+class GetRequest{
   String id;
 
   GetRequest({  required this.id,  });
@@ -107,7 +107,7 @@ class GetRequest {
   factory GetRequest.fromJson(String source) => GetRequest.fromMap(json.decode(source));
 }
 
-class SearchRequest {
+class SearchRequest{
   String query;
 
   SearchRequest({  required this.query,  });
@@ -129,7 +129,7 @@ class SearchRequest {
   factory SearchRequest.fromJson(String source) => SearchRequest.fromMap(json.decode(source));
 }
 
-class SearchResponse {
+class SearchResponse{
   List<Product> results;
 
   SearchResponse({  required this.results,  });

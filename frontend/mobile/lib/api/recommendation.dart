@@ -7,7 +7,7 @@ import 'ftl_client.dart';
 import 'productcatalog.dart' as productcatalog;
 
 
-class ListRequest {
+class ListRequest{
   String userID;
   List<String> userProductIDs;
 
@@ -32,7 +32,7 @@ class ListRequest {
   factory ListRequest.fromJson(String source) => ListRequest.fromMap(json.decode(source));
 }
 
-class ListResponse {
+class ListResponse{
   List<String> productIDs;
 
   ListResponse({  required this.productIDs,  });

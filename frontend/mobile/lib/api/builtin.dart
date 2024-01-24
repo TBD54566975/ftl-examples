@@ -6,13 +6,13 @@ import 'dart:typed_data';
 import 'ftl_client.dart';
 
 
-class HttpRequest {
+class HttpRequest<Body>{
   String method;
   String path;
   Map<String, String> pathParameters;
   Map<String, List<String>> query;
   Map<String, List<String>> headers;
-  Uint8List body;
+  Body body;
 
   HttpRequest({  required this.method,  required this.path,  required this.pathParameters,  required this.query,  required this.headers,  required this.body,  });
 
@@ -43,10 +43,10 @@ class HttpRequest {
   factory HttpRequest.fromJson(String source) => HttpRequest.fromMap(json.decode(source));
 }
 
-class HttpResponse {
+class HttpResponse<Body>{
   int status;
   Map<String, List<String>> headers;
-  Uint8List body;
+  Body body;
 
   HttpResponse({  required this.status,  required this.headers,  required this.body,  });
 

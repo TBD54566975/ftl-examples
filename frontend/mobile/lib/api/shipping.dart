@@ -8,7 +8,7 @@ import 'cart.dart' as cart;
 import 'currency.dart' as currency;
 
 
-class Address {
+class Address{
   String streetAddress;
   String city;
   String state;
@@ -42,7 +42,7 @@ class Address {
   factory Address.fromJson(String source) => Address.fromMap(json.decode(source));
 }
 
-class ShippingRequest {
+class ShippingRequest{
   Address address;
   List<cart.Item> items;
 
@@ -67,7 +67,7 @@ class ShippingRequest {
   factory ShippingRequest.fromJson(String source) => ShippingRequest.fromMap(json.decode(source));
 }
 
-class ShipOrderResponse {
+class ShipOrderResponse{
   String id;
 
   ShipOrderResponse({  required this.id,  });
