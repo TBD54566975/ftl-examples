@@ -15,7 +15,7 @@ import * as {{. | lower }} from "./{{. | lower}}"
 {{- end}}
 
 {{- range .Data }}
-export interface {{ .Name | camel }} {
+export interface {{ .Name | camel }}{{ .TypeParameters | tsTypeParameters }} {
 {{- range .Fields }}
   {{ .Name }}: {{ .Type | tsType }};
 {{- end }}

@@ -4,7 +4,7 @@ go 1.21.6
 
 replace github.com/TBD54566975/ftl/examples/online-boutique => ../..
 
-require github.com/TBD54566975/ftl v0.99.0
+require github.com/TBD54566975/ftl v0.107.0
 
 require (
 	connectrpc.com/connect v1.14.0 // indirect

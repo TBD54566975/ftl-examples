@@ -6,7 +6,7 @@ import 'dart:typed_data';
 import 'ftl_client.dart';
 
 
-class GetSupportedCurrenciesRequest {
+class GetSupportedCurrenciesRequest{
 
   GetSupportedCurrenciesRequest();
 
@@ -25,7 +25,7 @@ class GetSupportedCurrenciesRequest {
   factory GetSupportedCurrenciesRequest.fromJson(String source) => GetSupportedCurrenciesRequest.fromMap(json.decode(source));
 }
 
-class GetSupportedCurrenciesResponse {
+class GetSupportedCurrenciesResponse{
   List<String> currencyCodes;
 
   GetSupportedCurrenciesResponse({  required this.currencyCodes,  });
@@ -47,7 +47,7 @@ class GetSupportedCurrenciesResponse {
   factory GetSupportedCurrenciesResponse.fromJson(String source) => GetSupportedCurrenciesResponse.fromMap(json.decode(source));
 }
 
-class Money {
+class Money{
   String currencyCode;
   int units;
   int nanos;
@@ -75,7 +75,7 @@ class Money {
   factory Money.fromJson(String source) => Money.fromMap(json.decode(source));
 }
 
-class ConvertRequest {
+class ConvertRequest{
   Money from;
   String toCode;
 

@@ -7,7 +7,7 @@ import 'ftl_client.dart';
 import 'currency.dart' as currency;
 
 
-class CreditCardInfo {
+class CreditCardInfo{
   String number;
   int cVV;
   int expirationYear;
@@ -38,7 +38,7 @@ class CreditCardInfo {
   factory CreditCardInfo.fromJson(String source) => CreditCardInfo.fromMap(json.decode(source));
 }
 
-class ChargeRequest {
+class ChargeRequest{
   currency.Money amount;
   CreditCardInfo creditCard;
 
@@ -63,7 +63,7 @@ class ChargeRequest {
   factory ChargeRequest.fromJson(String source) => ChargeRequest.fromMap(json.decode(source));
 }
 
-class ChargeResponse {
+class ChargeResponse{
   String transactionID;
 
   ChargeResponse({  required this.transactionID,  });

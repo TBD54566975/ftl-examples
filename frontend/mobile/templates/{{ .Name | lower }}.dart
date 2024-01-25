@@ -9,7 +9,7 @@ import '{{. | lower }}.dart' as {{. | lower}};
 {{- end}}
 
 {{ range .Data }}
-class {{ .Name | camel }} {
+class {{ .Name | camel }}{{ .TypeParameters | dartTypeParameters }}{
 {{- range .Fields }}
   {{ .Type | dartType }} {{ .Name }};
 {{- end }}

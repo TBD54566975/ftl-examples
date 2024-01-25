@@ -31,14 +31,28 @@ function tsType(t) {
       if (context.name === t.module) {
         return t.name
       }
+      if (t.typeParameters && t.typeParameters.length > 0) {
+        return `${t.module}.${t.name}${tsTypeParameters(t.typeParameters)}`
+      }
       return `${t.module}.${t.name}`
 
     case 'Optional':
       return tsType(t.type) + '?'
 
+    case "TypeParameter":
+      return t.name;
+
     default:
       throw new Error(`Unspported FTL type: ${typename(t)}`)
   }
+}
+
+function tsTypeParameters (t) {
+  if (t.length == 0) {
+    return "";
+  }
+
+  return `<${t.map((p) => tsType(p)).join(", ")}>`;
 }
 
 function deserialize(t) {

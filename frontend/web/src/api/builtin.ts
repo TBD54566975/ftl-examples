@@ -9,19 +9,19 @@
 //  /_/   /_/ /____/            
 //
 //
-export interface HttpRequest {
+export interface HttpRequest<Body> {
   method: string;
   path: string;
   pathParameters: Map<string, string>;
   query: Map<string, string[]>;
   headers: Map<string, string[]>;
-  body: Uint8Array;
+  body: Body;
 }
 
-export interface HttpResponse {
+export interface HttpResponse<Body> {
   status: number;
   headers: Map<string, string[]>;
-  body: Uint8Array;
+  body: Body;
 }
 
 
