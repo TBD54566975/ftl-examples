@@ -1,0 +1,38 @@
+{
+	"folders": [
+		{
+			"path": "frontend/mobile"
+		},
+		{
+			"path": "frontend/web"
+		},
+		{
+			"path": "backend/online-boutique/services/ad"
+		},
+		{
+			"path": "backend/online-boutique/services/cart"
+		},
+		{
+			"path": "backend/online-boutique/services/checkout"
+		},
+		{
+			"path": "backend/online-boutique/services/currency"
+		},
+		{
+			"path": "backend/online-boutique/services/payment"
+		},
+		{
+			"path": "backend/online-boutique/services/productcatalog"
+		},
+		{
+			"path": "backend/online-boutique/services/recommendation"
+		},
+		{
+			"path": "backend/online-boutique/services/shipping"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {}
+}
