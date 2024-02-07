@@ -4,6 +4,7 @@ library shipping;
 import 'dart:convert';
 import 'dart:typed_data';
 import 'ftl_client.dart';
+import 'builtin.dart' as builtin;
 import 'cart.dart' as cart;
 import 'currency.dart' as currency;
 
@@ -17,7 +18,7 @@ class Address{
 
   Address({  required this.streetAddress,  required this.city,  required this.state,  required this.country,  required this.zipCode,  });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'streetAddress': ((dynamic v) => v)(streetAddress),
       'city': ((dynamic v) => v)(city),
@@ -27,19 +28,11 @@ class Address{
     };
   }
 
-  factory Address.fromMap(Map<String, dynamic> map) {
+  factory Address.fromJson(Map<String, dynamic> map) {
     return Address(
-      streetAddress: ((dynamic v) => v)(map['streetAddress']),
-      city: ((dynamic v) => v)(map['city']),
-      state: ((dynamic v) => v)(map['state']),
-      country: ((dynamic v) => v)(map['country']),
-      zipCode: ((dynamic v) => v)(map['zipCode']),
+      streetAddress: ((dynamic v) => v)(map['streetAddress']), city: ((dynamic v) => v)(map['city']), state: ((dynamic v) => v)(map['state']), country: ((dynamic v) => v)(map['country']), zipCode: ((dynamic v) => v)(map['zipCode']), 
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory Address.fromJson(String source) => Address.fromMap(json.decode(source));
 }
 
 class ShippingRequest{
@@ -48,23 +41,18 @@ class ShippingRequest{
 
   ShippingRequest({  required this.address,  required this.items,  });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
-      'address': ((dynamic v) => v.toMap())(address),
-      'items': ((dynamic v) => v.map((v) => v.toMap()).cast<cart.Item>().toList())(items),
+      'address': ((dynamic v) => v.toJson())(address),
+      'items': ((dynamic v) => v.map((v) => v.toJson()).cast<cart.Item>().toList())(items),
     };
   }
 
-  factory ShippingRequest.fromMap(Map<String, dynamic> map) {
+  factory ShippingRequest.fromJson(Map<String, dynamic> map) {
     return ShippingRequest(
-      address: ((dynamic v) => Address.fromMap(v))(map['address']),
-      items: ((dynamic v) => v.map((v) => cart.Item.fromMap(v)).cast<cart.Item>().toList())(map['items']),
+      address: ((dynamic v) => Address.fromJson(v))(map['address']), items: ((dynamic v) => v.map((v) => cart.Item.fromJson(v)).cast<cart.Item>().toList())(map['items']), 
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory ShippingRequest.fromJson(String source) => ShippingRequest.fromMap(json.decode(source));
 }
 
 class ShipOrderResponse{
@@ -72,21 +60,17 @@ class ShipOrderResponse{
 
   ShipOrderResponse({  required this.id,  });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'id': ((dynamic v) => v)(id),
     };
   }
 
-  factory ShipOrderResponse.fromMap(Map<String, dynamic> map) {
+  factory ShipOrderResponse.fromJson(Map<String, dynamic> map) {
     return ShipOrderResponse(
-      id: ((dynamic v) => v)(map['id']),
+      id: ((dynamic v) => v)(map['id']), 
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory ShipOrderResponse.fromJson(String source) => ShipOrderResponse.fromMap(json.decode(source));
 }
 
 
@@ -96,19 +80,27 @@ class ShippingClient {
   ShippingClient({required this.ftlClient});
 
 
-  Future<currency.Money> getQuote(ShippingRequest request) async {
-    final response = await ftlClient.post('/shipping/quote', request: request.toMap());
+  Future<currency.Money> getQuote(
+    ShippingRequest request, { 
+    Map<String, String>? headers,
+  }) async {
+    final response = await ftlClient.post('/shipping/quote', request: request.toJson());
     if (response.statusCode == 200) {
-      return currency.Money.fromJson(response.body);
+      final body = json.decode(utf8.decode(response.bodyBytes));
+      return currency.Money.fromJson(body);
     } else {
       throw Exception('Failed to get getQuote response');
     }
   }
 
-  Future<ShipOrderResponse> shipOrder(ShippingRequest request) async {
-    final response = await ftlClient.post('/shipping/ship', request: request.toMap());
+  Future<ShipOrderResponse> shipOrder(
+    ShippingRequest request, { 
+    Map<String, String>? headers,
+  }) async {
+    final response = await ftlClient.post('/shipping/ship', request: request.toJson());
     if (response.statusCode == 200) {
-      return ShipOrderResponse.fromJson(response.body);
+      final body = json.decode(utf8.decode(response.bodyBytes));
+      return ShipOrderResponse.fromJson(body);
     } else {
       throw Exception('Failed to get shipOrder response');
     }

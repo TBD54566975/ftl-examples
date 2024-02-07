@@ -4,6 +4,7 @@ library ad;
 import 'dart:convert';
 import 'dart:typed_data';
 import 'ftl_client.dart';
+import 'builtin.dart' as builtin;
 
 
 class AdRequest{
@@ -11,21 +12,17 @@ class AdRequest{
 
   AdRequest({  required this.contextKeys,  });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'contextKeys': ((dynamic v) => v.map((v) => v).cast<String>().toList())(contextKeys),
     };
   }
 
-  factory AdRequest.fromMap(Map<String, dynamic> map) {
+  factory AdRequest.fromJson(Map<String, dynamic> map) {
     return AdRequest(
-      contextKeys: ((dynamic v) => v.map((v) => v).cast<String>().toList())(map['contextKeys']),
+      contextKeys: ((dynamic v) => v.map((v) => v).cast<String>().toList())(map['contextKeys']), 
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory AdRequest.fromJson(String source) => AdRequest.fromMap(json.decode(source));
 }
 
 class Ad{
@@ -34,23 +31,18 @@ class Ad{
 
   Ad({  required this.redirectURL,  required this.text,  });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'redirectURL': ((dynamic v) => v)(redirectURL),
       'text': ((dynamic v) => v)(text),
     };
   }
 
-  factory Ad.fromMap(Map<String, dynamic> map) {
+  factory Ad.fromJson(Map<String, dynamic> map) {
     return Ad(
-      redirectURL: ((dynamic v) => v)(map['redirectURL']),
-      text: ((dynamic v) => v)(map['text']),
+      redirectURL: ((dynamic v) => v)(map['redirectURL']), text: ((dynamic v) => v)(map['text']), 
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory Ad.fromJson(String source) => Ad.fromMap(json.decode(source));
 }
 
 class AdResponse{
@@ -59,23 +51,18 @@ class AdResponse{
 
   AdResponse({  required this.name,  required this.ads,  });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'name': ((dynamic v) => v)(name),
-      'ads': ((dynamic v) => v.map((v) => v.toMap()).cast<Ad>().toList())(ads),
+      'ads': ((dynamic v) => v.map((v) => v.toJson()).cast<Ad>().toList())(ads),
     };
   }
 
-  factory AdResponse.fromMap(Map<String, dynamic> map) {
+  factory AdResponse.fromJson(Map<String, dynamic> map) {
     return AdResponse(
-      name: ((dynamic v) => v)(map['name']),
-      ads: ((dynamic v) => v.map((v) => Ad.fromMap(v)).cast<Ad>().toList())(map['ads']),
+      name: ((dynamic v) => v)(map['name']), ads: ((dynamic v) => v.map((v) => Ad.fromJson(v)).cast<Ad>().toList())(map['ads']), 
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory AdResponse.fromJson(String source) => AdResponse.fromMap(json.decode(source));
 }
 
 
@@ -85,10 +72,18 @@ class AdClient {
   AdClient({required this.ftlClient});
 
 
-  Future<AdResponse> get(AdRequest request) async {
-    final response = await ftlClient.get('/ad', requestJson: request.toJson());
+  Future<AdResponse> get(
+    AdRequest request, { 
+    Map<String, String>? headers,
+  }) async {
+    final response = await ftlClient.get(
+      '/ad', 
+      requestJson: json.encode(request.toJson()),
+      headers: headers,
+    );
     if (response.statusCode == 200) {
-      return AdResponse.fromJson(response.body);
+      final body = json.decode(utf8.decode(response.bodyBytes));
+      return AdResponse.fromJson(body);
     } else {
       throw Exception('Failed to get get response');
     }

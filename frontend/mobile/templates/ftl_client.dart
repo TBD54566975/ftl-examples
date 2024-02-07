@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+isOkResponse(int statusCode) {
+  return statusCode >= 200 && statusCode < 300;
+}
+
 class FTLHttpClient {
   final String baseUrl;
   final http.Client httpClient;

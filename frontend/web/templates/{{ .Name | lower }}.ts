@@ -32,7 +32,7 @@ export class {{ .Name | camel }}Client {
 {{- $verb := . -}}
 {{- range .Metadata }}
 {{ if eq "MetadataIngress" (. | typename) }}
-  public async {{ $verb.Name | lowerCamel }}(request: {{ $verb.Request | tsType }}): Promise<{{ $verb.Response | tsType }}> {
+  public async {{ $verb.Name | lowerCamel }}(request: {{ $verb.Request | bodyType }}): Promise<{{ $verb.Response | bodyType }}> {
     const path = `{{ $verb | url }}`;
     {{ if eq .Method "GET" -}}
     const response = await fetch(`${this.baseUrl}${path}`, {
