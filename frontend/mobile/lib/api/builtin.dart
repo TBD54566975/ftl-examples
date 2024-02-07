@@ -16,31 +16,22 @@ class HttpRequest<Body>{
 
   HttpRequest({  required this.method,  required this.path,  required this.pathParameters,  required this.query,  required this.headers,  required this.body,  });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'method': ((dynamic v) => v)(method),
       'path': ((dynamic v) => v)(path),
       'pathParameters': ((dynamic v) => v.map((k, v) => MapEntry(k, v)).cast<String, String>())(pathParameters),
       'query': ((dynamic v) => v.map((k, v) => MapEntry(k, v.map((v) => v).cast<String>().toList())).cast<String, List<String>>())(query),
       'headers': ((dynamic v) => v.map((k, v) => MapEntry(k, v.map((v) => v).cast<String>().toList())).cast<String, List<String>>())(headers),
-      'body': ((dynamic v) => v)(body),
+      'body': ((dynamic v) => v.toJson())(body),
     };
   }
 
-  factory HttpRequest.fromMap(Map<String, dynamic> map) {
+  factory HttpRequest.fromJson(Map<String, dynamic> map, Body Function(Map<String, dynamic>) bodyJsonFn) {
     return HttpRequest(
-      method: ((dynamic v) => v)(map['method']),
-      path: ((dynamic v) => v)(map['path']),
-      pathParameters: ((dynamic v) => v.map((k, v) => MapEntry(k, v)).cast<String, String>())(map['pathParameters']),
-      query: ((dynamic v) => v.map((k, v) => MapEntry(k, v.map((v) => v).cast<String>().toList())).cast<String, List<String>>())(map['query']),
-      headers: ((dynamic v) => v.map((k, v) => MapEntry(k, v.map((v) => v).cast<String>().toList())).cast<String, List<String>>())(map['headers']),
-      body: ((dynamic v) => v)(map['body']),
+      method: ((dynamic v) => v)(map['method']), path: ((dynamic v) => v)(map['path']), pathParameters: ((dynamic v) => v.map((k, v) => MapEntry(k, v)).cast<String, String>())(map['pathParameters']), query: ((dynamic v) => v.map((k, v) => MapEntry(k, v.map((v) => v).cast<String>().toList())).cast<String, List<String>>())(map['query']), headers: ((dynamic v) => v.map((k, v) => MapEntry(k, v.map((v) => v).cast<String>().toList())).cast<String, List<String>>())(map['headers']), body: bodyJsonFn(map['body']), 
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory HttpRequest.fromJson(String source) => HttpRequest.fromMap(json.decode(source));
 }
 
 class HttpResponse<Body>{
@@ -50,25 +41,35 @@ class HttpResponse<Body>{
 
   HttpResponse({  required this.status,  required this.headers,  required this.body,  });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'status': ((dynamic v) => v)(status),
       'headers': ((dynamic v) => v.map((k, v) => MapEntry(k, v.map((v) => v).cast<String>().toList())).cast<String, List<String>>())(headers),
-      'body': ((dynamic v) => v)(body),
+      'body': ((dynamic v) => v.toJson())(body),
     };
   }
 
-  factory HttpResponse.fromMap(Map<String, dynamic> map) {
+  factory HttpResponse.fromJson(Map<String, dynamic> map, Body Function(Map<String, dynamic>) bodyJsonFn) {
     return HttpResponse(
-      status: ((dynamic v) => v)(map['status']),
-      headers: ((dynamic v) => v.map((k, v) => MapEntry(k, v.map((v) => v).cast<String>().toList())).cast<String, List<String>>())(map['headers']),
-      body: ((dynamic v) => v)(map['body']),
+      status: ((dynamic v) => v)(map['status']), headers: ((dynamic v) => v.map((k, v) => MapEntry(k, v.map((v) => v).cast<String>().toList())).cast<String, List<String>>())(map['headers']), body: bodyJsonFn(map['body']), 
     );
   }
+}
 
-  String toJson() => json.encode(toMap());
+class Empty{
 
-  factory HttpResponse.fromJson(String source) => HttpResponse.fromMap(json.decode(source));
+  Empty();
+
+  Map<String, dynamic> toJson() {
+    return {
+    };
+  }
+
+  factory Empty.fromJson(Map<String, dynamic> map) {
+    return Empty(
+      
+    );
+  }
 }
 
 

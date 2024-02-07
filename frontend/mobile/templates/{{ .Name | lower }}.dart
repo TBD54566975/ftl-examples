@@ -16,7 +16,7 @@ class {{ .Name | camel }}{{ .TypeParameters | dartTypeParameters }}{
 
   {{ .Name | camel }}({{ if .Fields }}{ {{ range .Fields }}{{ if not (eq (.Type | typename) "Optional")}} required{{end}} this.{{ .Name }}, {{ end}} }{{ end }});
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
 {{- range .Fields}}
       '{{ .Name }}': ((dynamic v) => {{ .Type | serialize }})({{ .Name }}),
@@ -24,17 +24,11 @@ class {{ .Name | camel }}{{ .TypeParameters | dartTypeParameters }}{
     };
   }
 
-  factory {{ .Name | camel }}.fromMap(Map<String, dynamic> map) {
+  factory {{ .Name | camel }}.fromJson(Map<String, dynamic> map{{ .TypeParameters | tpMappingFuncs }}) {
     return {{ .Name | camel }}(
-{{- range .Fields }}
-      {{ .Name }}: ((dynamic v) => {{ .Type | deserialize }})(map['{{ .Name }}']),
-{{- end }}
+      {{ . | fromJsonFields }}
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory {{ .Name | camel }}.fromJson(String source) => {{ .Name | camel }}.fromMap(json.decode(source));
 }
 {{ end}}
 
@@ -46,14 +40,22 @@ class {{ .Name | camel }}Client {
 {{- $verb := . -}}
 {{- range .Metadata }}
 {{ if eq "MetadataIngress" (. | typename) }}
-  Future<{{ $verb.Response | dartType }}> {{ $verb.Name }}({{ $verb.Request | dartType }} request) async {
+  Future<{{ $verb.Response | bodyType }}> {{ $verb.Name }}(
+    {{ $verb.Request | bodyType }} request, { 
+    Map<String, String>? headers,
+  }) async {
     {{ if eq .Method "GET" -}}
-    final response = await ftlClient.{{ .Method | lower }}('{{ $verb | url }}', requestJson: request.toJson());
+    final response = await ftlClient.{{ .Method | lower }}(
+      '{{ $verb | url }}', 
+      requestJson: json.encode(request.toJson()),
+      headers: headers,
+    );
     {{ else -}}
-    final response = await ftlClient.{{ .Method | lower }}('{{ $verb | url }}', request: request.toMap());
+    final response = await ftlClient.{{ .Method | lower }}('{{ $verb | url }}', request: request.toJson());
     {{ end -}}
     if (response.statusCode == 200) {
-      return {{ $verb.Response | dartType }}.fromJson(response.body);
+      final body = json.decode(utf8.decode(response.bodyBytes));
+      return {{ $verb.Response | bodyType }}.fromJson(body);
     } else {
       throw Exception('Failed to get {{ $verb.Name }} response');
     }

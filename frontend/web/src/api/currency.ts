@@ -9,6 +9,7 @@
 //  /_/   /_/ /____/            
 //
 //
+import * as builtin from "./builtin"
 export interface GetSupportedCurrenciesRequest {
 }
 

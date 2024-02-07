@@ -4,6 +4,7 @@ library recommendation;
 import 'dart:convert';
 import 'dart:typed_data';
 import 'ftl_client.dart';
+import 'builtin.dart' as builtin;
 import 'productcatalog.dart' as productcatalog;
 
 
@@ -13,23 +14,18 @@ class ListRequest{
 
   ListRequest({  required this.userID,  required this.userProductIDs,  });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'userID': ((dynamic v) => v)(userID),
       'userProductIDs': ((dynamic v) => v.map((v) => v).cast<String>().toList())(userProductIDs),
     };
   }
 
-  factory ListRequest.fromMap(Map<String, dynamic> map) {
+  factory ListRequest.fromJson(Map<String, dynamic> map) {
     return ListRequest(
-      userID: ((dynamic v) => v)(map['userID']),
-      userProductIDs: ((dynamic v) => v.map((v) => v).cast<String>().toList())(map['userProductIDs']),
+      userID: ((dynamic v) => v)(map['userID']), userProductIDs: ((dynamic v) => v.map((v) => v).cast<String>().toList())(map['userProductIDs']), 
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory ListRequest.fromJson(String source) => ListRequest.fromMap(json.decode(source));
 }
 
 class ListResponse{
@@ -37,21 +33,17 @@ class ListResponse{
 
   ListResponse({  required this.productIDs,  });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'productIDs': ((dynamic v) => v.map((v) => v).cast<String>().toList())(productIDs),
     };
   }
 
-  factory ListResponse.fromMap(Map<String, dynamic> map) {
+  factory ListResponse.fromJson(Map<String, dynamic> map) {
     return ListResponse(
-      productIDs: ((dynamic v) => v.map((v) => v).cast<String>().toList())(map['productIDs']),
+      productIDs: ((dynamic v) => v.map((v) => v).cast<String>().toList())(map['productIDs']), 
     );
   }
-
-  String toJson() => json.encode(toMap());
-
-  factory ListResponse.fromJson(String source) => ListResponse.fromMap(json.decode(source));
 }
 
 
@@ -61,10 +53,18 @@ class RecommendationClient {
   RecommendationClient({required this.ftlClient});
 
 
-  Future<ListResponse> list(ListRequest request) async {
-    final response = await ftlClient.get('/recommendation', requestJson: request.toJson());
+  Future<ListResponse> list(
+    ListRequest request, { 
+    Map<String, String>? headers,
+  }) async {
+    final response = await ftlClient.get(
+      '/recommendation', 
+      requestJson: json.encode(request.toJson()),
+      headers: headers,
+    );
     if (response.statusCode == 200) {
-      return ListResponse.fromJson(response.body);
+      final body = json.decode(utf8.decode(response.bodyBytes));
+      return ListResponse.fromJson(body);
     } else {
       throw Exception('Failed to get list response');
     }

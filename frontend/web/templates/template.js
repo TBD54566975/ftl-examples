@@ -34,7 +34,7 @@ function tsType(t) {
       if (t.typeParameters && t.typeParameters.length > 0) {
         return `${t.module}.${t.name}${tsTypeParameters(t.typeParameters)}`
       }
-      return `${t.module}.${t.name}`
+      return [t.module, t.name].filter(Boolean).join('.');
 
     case 'Optional':
       return tsType(t.type) + '?'
@@ -45,6 +45,10 @@ function tsType(t) {
     default:
       throw new Error(`Unspported FTL type: ${typename(t)}`)
   }
+}
+
+function bodyType(t) {
+  return tsType(t.typeParameters[0]);
 }
 
 function tsTypeParameters (t) {

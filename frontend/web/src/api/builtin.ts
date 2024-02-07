@@ -24,6 +24,9 @@ export interface HttpResponse<Body> {
   body: Body;
 }
 
+export interface Empty {
+}
+
 
 export class BuiltinClient {
   private baseUrl: string;

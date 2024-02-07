@@ -34,7 +34,7 @@ function dartType(t) {
       if (t.typeParameters && t.typeParameters.length > 0) {
         return `${t.module}.${t.name}${dartTypeParameters(t.typeParameters)}`
       }
-      return `${t.module}.${t.name}`;
+      return [t.module, t.name].filter(Boolean).join('.');
 
     case "TypeParameter":
       return t.name;
@@ -55,6 +55,46 @@ function dartTypeParameters (t) {
   return `<${t.map((p) => dartType(p)).join(", ")}>`;
 }
 
+function bodyType(t) {
+  return dartType(t.typeParameters[0]);
+}
+
+function tpMappingFuncs(tps) {
+  if (tps.length === 0) {
+    return "";
+  }
+
+  let response = "";
+  for (let tp of tps) {
+    response += `, ${tp} Function(Map<String, dynamic>) ${tp.name.toLowerCase()}JsonFn`;
+  }
+
+  return response;
+}
+
+// This function returns the fields of a type as a string.
+// with special handling for type parameters.
+function fromJsonFields(t) {
+  let response = "";
+
+  for (let field of t.fields) {
+    let isTypeParameter = false;
+    for (let tp of t.typeParameters) {
+      if (field.type.name === tp.name) {
+        response += `${field.name}: ${tp.name.toLowerCase()}JsonFn(map['${field.name}']), `;
+        isTypeParameter = true;
+        break;
+        
+      }
+    }
+    if (!isTypeParameter) {
+      response += `${field.name}: ((dynamic v) => ${deserialize(field.type)})(map['${field.name}']), `;
+    }
+  }
+
+  return response;
+}
+
 function deserialize(t) {
   switch (typename(t)) {
     case "Array":
@@ -64,7 +104,7 @@ function deserialize(t) {
       return `v.map((k, v) => MapEntry(k, ${deserialize(t.value)})).cast<${dartType(t.key)}, ${dartType(t.value)}>()`;
 
     case "DataRef":
-      return `${dartType(t)}.fromMap(v)`;
+      return `${dartType(t)}.fromJson(v)`;
 
     default:
       return "v";
@@ -80,7 +120,7 @@ function serialize(t) {
       return `v.map((k, v) => MapEntry(k, ${serialize(t.value)})).cast<${dartType(t.key)}, ${dartType(t.value)}>()`;
 
     case "DataRef":
-      return "v.toMap()";
+      return "v.toJson()";
 
     default:
       return "v";
