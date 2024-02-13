@@ -1,34 +1,34 @@
 {
 	"folders": [
 		{
-			"path": "frontend/mobile"
+			"path": "online-boutique/mobile"
 		},
 		{
-			"path": "frontend/web"
+			"path": "online-boutique/web"
 		},
 		{
-			"path": "backend/online-boutique/services/ad"
+			"path": "online-boutique/backend/services/ad"
 		},
 		{
-			"path": "backend/online-boutique/services/cart"
+			"path": "online-boutique/backend/services/cart"
 		},
 		{
-			"path": "backend/online-boutique/services/checkout"
+			"path": "online-boutique/backend/services/checkout"
 		},
 		{
-			"path": "backend/online-boutique/services/currency"
+			"path": "online-boutique/backend/services/currency"
 		},
 		{
-			"path": "backend/online-boutique/services/payment"
+			"path": "online-boutique/backend/services/payment"
 		},
 		{
-			"path": "backend/online-boutique/services/productcatalog"
+			"path": "online-boutique/backend/services/productcatalog"
 		},
 		{
-			"path": "backend/online-boutique/services/recommendation"
+			"path": "online-boutique/backend/services/recommendation"
 		},
 		{
-			"path": "backend/online-boutique/services/shipping"
+			"path": "online-boutique/backend/services/shipping"
 		},
 		{
 			"path": "."
