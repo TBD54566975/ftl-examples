@@ -22,13 +22,13 @@ jobs:
         with:
           cache: true
       - name: Get dependencies
-        working-directory: ./frontend/mobile
+        working-directory: ./online-boutique/mobile
         run: flutter pub get
       - name: Analyze
-        working-directory: ./frontend/mobile
+        working-directory: ./online-boutique/mobile
         run: flutter analyze
       - name: Test
-        working-directory: ./frontend/mobile
+        working-directory: ./online-boutique/mobile
         run: flutter test
   web:
     name: Test Web
@@ -38,12 +38,14 @@ jobs:
         uses: actions/checkout@v3
       - name: Init Hermit
         uses: cashapp/activate-hermit@v1
+        with:
+          cache: true
       - name: Get dependencies
-        working-directory: ./frontend/web
+        working-directory: ./online-boutique/web
         run: npm install
       - name: Type check
-        working-directory: ./frontend/web
+        working-directory: ./online-boutique/web
         run: tsc
       - name: Test
-        working-directory: ./frontend/web
+        working-directory: ./online-boutique/web
         run: npm run test
