@@ -12,6 +12,7 @@ import (
 	"golang.org/x/exp/maps"
 
 	"github.com/TBD54566975/ftl/examples/online-boutique/common"
+	"github.com/TBD54566975/ftl/go-runtime/ftl"
 )
 
 var (
@@ -47,9 +48,9 @@ type GetSupportedCurrenciesResponse struct {
 
 //ftl:verb
 //ftl:ingress GET /currency/supported
-func GetSupportedCurrencies(ctx context.Context, req builtin.HttpRequest[GetSupportedCurrenciesRequest]) (builtin.HttpResponse[GetSupportedCurrenciesResponse], error) {
-	return builtin.HttpResponse[GetSupportedCurrenciesResponse]{
-		Body: GetSupportedCurrenciesResponse{CurrencyCodes: maps.Keys(database)},
+func GetSupportedCurrencies(ctx context.Context, req builtin.HttpRequest[GetSupportedCurrenciesRequest]) (builtin.HttpResponse[GetSupportedCurrenciesResponse, ftl.Unit], error) {
+	return builtin.HttpResponse[GetSupportedCurrenciesResponse, ftl.Unit]{
+		Body: ftl.Some(GetSupportedCurrenciesResponse{CurrencyCodes: maps.Keys(database)}),
 	}, nil
 }
 
@@ -60,21 +61,25 @@ type ConvertRequest struct {
 
 //ftl:verb
 //ftl:ingress POST /currency/convert
-func Convert(ctx context.Context, req builtin.HttpRequest[ConvertRequest]) (builtin.HttpResponse[Money], error) {
+func Convert(ctx context.Context, req builtin.HttpRequest[ConvertRequest]) (builtin.HttpResponse[Money, string], error) {
 	from := req.Body.From
 	fromRate, ok := database[from.CurrencyCode]
 	if !ok {
-		return builtin.HttpResponse[Money]{}, fmt.Errorf("unknown origin currency %q", req.Body.From.CurrencyCode)
+		return builtin.HttpResponse[Money, string]{
+			Error: ftl.Some(fmt.Sprintf("unknown origin currency %q", req.Body.From.CurrencyCode)),
+		}, nil
 	}
 	toRate, ok := database[req.Body.ToCode]
 	if !ok {
-		return builtin.HttpResponse[Money]{}, fmt.Errorf("unknown destination currency %q", req.Body.ToCode)
+		return builtin.HttpResponse[Money, string]{
+			Error: ftl.Some(fmt.Sprintf("unknown destination currency %q", req.Body.ToCode)),
+		}, nil
 	}
 	euros := carry(float64(from.Units)/fromRate, float64(from.Nanos)/fromRate)
 	to := carry(float64(euros.Units)*toRate, float64(euros.Nanos)*toRate)
 	to.CurrencyCode = req.Body.ToCode
 
-	return builtin.HttpResponse[Money]{Body: to}, nil
+	return builtin.HttpResponse[Money, string]{Body: ftl.Some(to)}, nil
 }
 
 // carry is a helper function that handles decimal/fractional carrying.

@@ -11,12 +11,12 @@
 //
 import * as builtin from "./builtin"
 export interface Item {
-  productID: string;
+  productId: string;
   quantity: number;
 }
 
 export interface AddItemRequest {
-  userID: string;
+  userId: string;
   item: Item;
 }
 
@@ -24,16 +24,16 @@ export interface AddItemResponse {
 }
 
 export interface GetCartRequest {
-  userID: string;
+  userId: string;
 }
 
 export interface Cart {
-  userID: string;
+  userId: string;
   items: Item[];
 }
 
 export interface EmptyCartRequest {
-  userID: string;
+  userId: string;
 }
 
 export interface EmptyCartResponse {

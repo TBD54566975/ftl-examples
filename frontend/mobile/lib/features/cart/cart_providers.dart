@@ -28,22 +28,22 @@ class CartNotifier extends AsyncNotifier<Cart> {
   }) async {
     CartClient(ftlClient: FTLHttpClient.instance)
         .addItem(AddItemRequest(
-          userID: 'a',
-          item: Item(productID: productId, quantity: quantity),
+          userId: 'a',
+          item: Item(productId: productId, quantity: quantity),
         ))
         .then((value) => getCart());
   }
 
   Future<Cart> getCart() async {
     final cart = await CartClient(ftlClient: FTLHttpClient.instance)
-        .getCart(GetCartRequest(userID: 'a'));
+        .getCart(GetCartRequest(userId: 'a'));
     state = AsyncData(cart);
     return cart;
   }
 
   Future<void> emptyCart() async {
     CartClient(ftlClient: FTLHttpClient.instance)
-        .emptyCart(EmptyCartRequest(userID: 'a'))
+        .emptyCart(EmptyCartRequest(userId: 'a'))
         .then((value) => getCart());
   }
 }

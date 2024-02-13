@@ -29,10 +29,10 @@ class Product{
   String name;
   String description;
   String picture;
-  currency.Money priceUSD;
+  currency.Money priceUsd;
   List<String> categories;
 
-  Product({  required this.id,  required this.name,  required this.description,  required this.picture,  required this.priceUSD,  required this.categories,  });
+  Product({  required this.id,  required this.name,  required this.description,  required this.picture,  required this.priceUsd,  required this.categories,  });
 
   Map<String, dynamic> toJson() {
     return {
@@ -40,14 +40,14 @@ class Product{
       'name': ((dynamic v) => v)(name),
       'description': ((dynamic v) => v)(description),
       'picture': ((dynamic v) => v)(picture),
-      'priceUSD': ((dynamic v) => v.toJson())(priceUSD),
+      'priceUsd': ((dynamic v) => v.toJson())(priceUsd),
       'categories': ((dynamic v) => v.map((v) => v).cast<String>().toList())(categories),
     };
   }
 
   factory Product.fromJson(Map<String, dynamic> map) {
     return Product(
-      id: ((dynamic v) => v)(map['id']), name: ((dynamic v) => v)(map['name']), description: ((dynamic v) => v)(map['description']), picture: ((dynamic v) => v)(map['picture']), priceUSD: ((dynamic v) => currency.Money.fromJson(v))(map['priceUSD']), categories: ((dynamic v) => v.map((v) => v).cast<String>().toList())(map['categories']), 
+      id: ((dynamic v) => v)(map['id']), name: ((dynamic v) => v)(map['name']), description: ((dynamic v) => v)(map['description']), picture: ((dynamic v) => v)(map['picture']), priceUsd: ((dynamic v) => currency.Money.fromJson(v))(map['priceUsd']), categories: ((dynamic v) => v.map((v) => v).cast<String>().toList())(map['categories']), 
     );
   }
 }
@@ -84,6 +84,24 @@ class GetRequest{
   factory GetRequest.fromJson(Map<String, dynamic> map) {
     return GetRequest(
       id: ((dynamic v) => v)(map['id']), 
+    );
+  }
+}
+
+class ErrorResponse{
+  String message;
+
+  ErrorResponse({  required this.message,  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'message': ((dynamic v) => v)(message),
+    };
+  }
+
+  factory ErrorResponse.fromJson(Map<String, dynamic> map) {
+    return ErrorResponse(
+      message: ((dynamic v) => v)(map['message']), 
     );
   }
 }

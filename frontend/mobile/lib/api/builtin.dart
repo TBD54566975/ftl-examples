@@ -34,24 +34,26 @@ class HttpRequest<Body>{
   }
 }
 
-class HttpResponse<Body>{
+class HttpResponse<Body, Error>{
   int status;
   Map<String, List<String>> headers;
-  Body body;
+  Body? body;
+  Error? error;
 
-  HttpResponse({  required this.status,  required this.headers,  required this.body,  });
+  HttpResponse({  required this.status,  required this.headers,  this.body,  this.error,  });
 
   Map<String, dynamic> toJson() {
     return {
       'status': ((dynamic v) => v)(status),
       'headers': ((dynamic v) => v.map((k, v) => MapEntry(k, v.map((v) => v).cast<String>().toList())).cast<String, List<String>>())(headers),
-      'body': ((dynamic v) => v.toJson())(body),
+      'body': ((dynamic v) => v)(body),
+      'error': ((dynamic v) => v)(error),
     };
   }
 
-  factory HttpResponse.fromJson(Map<String, dynamic> map, Body Function(Map<String, dynamic>) bodyJsonFn) {
+  factory HttpResponse.fromJson(Map<String, dynamic> map, Body Function(Map<String, dynamic>) bodyJsonFn, Error Function(Map<String, dynamic>) errorJsonFn) {
     return HttpResponse(
-      status: ((dynamic v) => v)(map['status']), headers: ((dynamic v) => v.map((k, v) => MapEntry(k, v.map((v) => v).cast<String>().toList())).cast<String, List<String>>())(map['headers']), body: bodyJsonFn(map['body']), 
+      status: ((dynamic v) => v)(map['status']), headers: ((dynamic v) => v.map((k, v) => MapEntry(k, v.map((v) => v).cast<String>().toList())).cast<String, List<String>>())(map['headers']), body: ((dynamic v) => v)(map['body']), error: ((dynamic v) => v)(map['error']), 
     );
   }
 }

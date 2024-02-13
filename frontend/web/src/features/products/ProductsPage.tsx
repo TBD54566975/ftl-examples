@@ -33,7 +33,7 @@ export const ProductsPage = () => {
                   </h3>
                   <p className='mt-1 text-sm text-gray-500'>{product.categories.join(', ')}</p>
                 </div>
-                <p className='text-sm font-medium text-gray-900'>{formatMoney(product.priceUSD)}</p>
+                <p className='text-sm font-medium text-gray-900'>{formatMoney(product.priceUsd)}</p>
               </div>
             </div>
           </Link>

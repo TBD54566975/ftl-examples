@@ -68,7 +68,7 @@ class HomePage extends HookConsumerWidget {
                         ),
                         const SizedBox(height: 5),
                         Text(
-                          '\$${fromMoney(product.priceUSD)}',
+                          '\$${fromMoney(product.priceUsd)}',
                           style: const TextStyle(
                             fontSize: 14,
                             color: Colors.grey,

@@ -9,21 +9,21 @@ import 'productcatalog.dart' as productcatalog;
 
 
 class ListRequest{
-  String userID;
+  String userId;
   List<String> userProductIDs;
 
-  ListRequest({  required this.userID,  required this.userProductIDs,  });
+  ListRequest({  required this.userId,  required this.userProductIDs,  });
 
   Map<String, dynamic> toJson() {
     return {
-      'userID': ((dynamic v) => v)(userID),
+      'userId': ((dynamic v) => v)(userId),
       'userProductIDs': ((dynamic v) => v.map((v) => v).cast<String>().toList())(userProductIDs),
     };
   }
 
   factory ListRequest.fromJson(Map<String, dynamic> map) {
     return ListRequest(
-      userID: ((dynamic v) => v)(map['userID']), userProductIDs: ((dynamic v) => v.map((v) => v).cast<String>().toList())(map['userProductIDs']), 
+      userId: ((dynamic v) => v)(map['userId']), userProductIDs: ((dynamic v) => v.map((v) => v).cast<String>().toList())(map['userProductIDs']), 
     );
   }
 }
@@ -42,6 +42,24 @@ class ListResponse{
   factory ListResponse.fromJson(Map<String, dynamic> map) {
     return ListResponse(
       productIDs: ((dynamic v) => v.map((v) => v).cast<String>().toList())(map['productIDs']), 
+    );
+  }
+}
+
+class ErrorResponse{
+  String message;
+
+  ErrorResponse({  required this.message,  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'message': ((dynamic v) => v)(message),
+    };
+  }
+
+  factory ErrorResponse.fromJson(Map<String, dynamic> map) {
+    return ErrorResponse(
+      message: ((dynamic v) => v)(map['message']), 
     );
   }
 }

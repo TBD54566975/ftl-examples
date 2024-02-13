@@ -19,7 +19,7 @@ export interface Product {
   name: string;
   description: string;
   picture: string;
-  priceUSD: currency.Money;
+  priceUsd: currency.Money;
   categories: string[];
 }
 
@@ -29,6 +29,10 @@ export interface ListResponse {
 
 export interface GetRequest {
   id: string;
+}
+
+export interface ErrorResponse {
+  message: string;
 }
 
 export interface SearchRequest {

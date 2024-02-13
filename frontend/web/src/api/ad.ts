@@ -15,7 +15,7 @@ export interface AdRequest {
 }
 
 export interface Ad {
-  redirectURL: string;
+  redirectUrl: string;
   text: string;
 }
 

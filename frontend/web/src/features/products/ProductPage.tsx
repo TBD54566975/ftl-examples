@@ -22,8 +22,8 @@ export const ProductPage = () => {
             <div className='lg:col-span-5 lg:col-start-8'>
               <div className='flex justify-between'>
                 <h1 className='text-xl font-medium text-gray-900'>{product?.name}</h1>
-                {product?.priceUSD && (
-                  <p className='text-xl font-medium text-gray-900'>{formatMoney(product.priceUSD)}</p>
+                {product?.priceUsd && (
+                  <p className='text-xl font-medium text-gray-900'>{formatMoney(product.priceUsd)}</p>
                 )}
               </div>
               <div className='mt-4'>

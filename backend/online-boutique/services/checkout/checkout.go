@@ -17,7 +17,7 @@ import (
 	"github.com/TBD54566975/ftl/backend/common/slices"
 	"github.com/TBD54566975/ftl/examples/online-boutique/common/money"
 
-	ftl "github.com/TBD54566975/ftl/go-runtime/sdk"
+	"github.com/TBD54566975/ftl/go-runtime/ftl"
 )
 
 type PlaceOrderRequest struct {
@@ -42,89 +42,163 @@ type Order struct {
 	Items              []OrderItem
 }
 
+type ErrorResponse struct {
+	Message string `alias:"message"`
+}
+
 //ftl:verb
 //ftl:ingress POST /checkout/{userID}
-func PlaceOrder(ctx context.Context, req builtin.HttpRequest[PlaceOrderRequest]) (builtin.HttpResponse[Order], error) {
-	cartItems, err := ftl.Call(ctx, cart.GetCart, builtin.HttpRequest[cart.GetCartRequest]{Body: cart.GetCartRequest{UserID: req.Body.UserID}})
+func PlaceOrder(ctx context.Context, req builtin.HttpRequest[PlaceOrderRequest]) (builtin.HttpResponse[Order, ErrorResponse], error) {
+	logger := ftl.LoggerFromContext(ctx)
+
+	cartItemsResp, err := ftl.Call(ctx, cart.GetCart, builtin.HttpRequest[cart.GetCartRequest]{Body: cart.GetCartRequest{UserId: req.Body.UserID}})
 	if err != nil {
-		return builtin.HttpResponse[Order]{}, fmt.Errorf("failed to get cart: %w", err)
+		return builtin.HttpResponse[Order, ErrorResponse]{
+			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to get cart for user %q: %w", req.Body.UserID, err)}),
+		}, nil
 	}
 
-	orders := make([]OrderItem, len(cartItems.Body.Items))
-	for i, item := range cartItems.Body.Items {
-		products, err := ftl.Call(ctx, productcatalog.Get, builtin.HttpRequest[productcatalog.GetRequest]{Body: productcatalog.GetRequest{Id: item.ProductID}})
+	cartItems, ok := cartItemsResp.Body.Get()
+	if !ok {
+		return builtin.HttpResponse[Order, ErrorResponse]{
+			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to get cart for user %q %s", req.Body.UserID, cartItemsResp.Error.MustGet())}),
+		}, nil
+	}
+
+	orders := make([]OrderItem, len(cartItems.Items))
+	for i, item := range cartItems.Items {
+		productsResp, err := ftl.Call(ctx, productcatalog.Get, builtin.HttpRequest[productcatalog.GetRequest]{Body: productcatalog.GetRequest{Id: item.ProductId}})
 		if err != nil {
-			return builtin.HttpResponse[Order]{}, fmt.Errorf("failed to get product #%q: %w", item.ProductID, err)
+			return builtin.HttpResponse[Order, ErrorResponse]{
+				Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to get product #%q: %w", item.ProductId, err)}),
+			}, nil
 		}
-		price, err := ftl.Call(ctx, currency.Convert, builtin.HttpRequest[currency.ConvertRequest]{
+
+		products, ok := productsResp.Body.Get()
+		if !ok {
+			return builtin.HttpResponse[Order, ErrorResponse]{
+				Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("product not found: %q %s", item.ProductId, productsResp.Error.MustGet())}),
+			}, nil
+		}
+
+		priceResp, err := ftl.Call(ctx, currency.Convert, builtin.HttpRequest[currency.ConvertRequest]{
 			Body: currency.ConvertRequest{
-				From:   products.Body.PriceUSD,
+				From:   products.PriceUsd,
 				ToCode: req.Body.UserCurrency,
 			},
 		})
 		if err != nil {
-			return builtin.HttpResponse[Order]{}, fmt.Errorf("failed to convert price of %q to %s: %w", item.ProductID, req.Body.UserCurrency, err)
+			return builtin.HttpResponse[Order, ErrorResponse]{
+				Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to convert price of %q to %s: %w", item.ProductId, req.Body.UserCurrency, err)}),
+			}, nil
 		}
+
+		price, ok := priceResp.Body.Get()
+		if !ok {
+			return builtin.HttpResponse[Order, ErrorResponse]{
+				Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to convert price of %q to %s %s", item.ProductId, req.Body.UserCurrency, priceResp.Error.MustGet())}),
+			}, nil
+		}
+
 		orders[i] = OrderItem{
 			Item: item,
-			Cost: price.Body,
+			Cost: price,
 		}
 	}
 
-	shippingUSD, err := ftl.Call(ctx, shipping.GetQuote, builtin.HttpRequest[shipping.ShippingRequest]{
+	shippingUSDResp, err := ftl.Call(ctx, shipping.GetQuote, builtin.HttpRequest[shipping.ShippingRequest]{
 		Body: shipping.ShippingRequest{
 			Address: req.Body.Address,
 			Items:   slices.Map(orders, func(i OrderItem) cart.Item { return i.Item }),
 		},
 	})
 	if err != nil {
-		return builtin.HttpResponse[Order]{}, fmt.Errorf("failed to get shipping quote: %w", err)
+		return builtin.HttpResponse[Order, ErrorResponse]{
+			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to get shipping quote: %w", err)}),
+		}, nil
 	}
-	shippingPrice, err := ftl.Call(ctx, currency.Convert, builtin.HttpRequest[currency.ConvertRequest]{
+
+	shippingUSD, ok := shippingUSDResp.Body.Get()
+	if !ok {
+		return builtin.HttpResponse[Order, ErrorResponse]{
+			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to get shipping quote %s", shippingUSDResp.Error.MustGet())}),
+		}, nil
+	}
+
+	shippingPriceResp, err := ftl.Call(ctx, currency.Convert, builtin.HttpRequest[currency.ConvertRequest]{
 		Body: currency.ConvertRequest{
-			From:   shippingUSD.Body,
+			From:   shippingUSD,
 			ToCode: req.Body.UserCurrency,
 		},
 	})
 	if err != nil {
-		return builtin.HttpResponse[Order]{}, fmt.Errorf("failed to convert shipping cost to currency: %w", err)
+		return builtin.HttpResponse[Order, ErrorResponse]{
+			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to convert shipping cost to currency: %v", err)}),
+		}, nil
+	}
+
+	shippingPrice, ok := shippingPriceResp.Body.Get()
+	if !ok {
+		return builtin.HttpResponse[Order, ErrorResponse]{
+			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to convert shipping cost to currency %s", shippingPriceResp.Error.MustGet())}),
+		}, nil
 	}
 
 	total := currency.Money{CurrencyCode: req.Body.UserCurrency}
-	total = money.Must(money.Sum(total, shippingPrice.Body))
+	total = money.Must(money.Sum(total, shippingPrice))
 	for _, it := range orders {
 		multPrice := money.MultiplySlow(it.Cost, uint32(it.Item.Quantity))
 		total = money.Must(money.Sum(total, multPrice))
 	}
-	txID, err := ftl.Call(ctx, payment.Charge, builtin.HttpRequest[payment.ChargeRequest]{
+	txIDResp, err := ftl.Call(ctx, payment.Charge, builtin.HttpRequest[payment.ChargeRequest]{
 		Body: payment.ChargeRequest{
 			Amount:     total,
 			CreditCard: req.Body.CreditCard,
 		},
 	})
 	if err != nil {
-		return builtin.HttpResponse[Order]{}, fmt.Errorf("failed to charge card: %w", err)
+		return builtin.HttpResponse[Order, ErrorResponse]{
+			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to charge card: %w", err)}),
+		}, nil
 	}
-	fmt.Printf("Charged card, ID %s", txID.Body.TransactionID)
 
-	shippingTrackingID, err := ftl.Call(ctx, shipping.ShipOrder, builtin.HttpRequest[shipping.ShippingRequest]{
+	txID, ok := txIDResp.Body.Get()
+	if !ok {
+		return builtin.HttpResponse[Order, ErrorResponse]{
+			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to charge card %v", txIDResp.Error.MustGet())}),
+		}, nil
+	}
+
+	logger.Infof("Charged card, ID %s", txID.TransactionId)
+
+	shippingTrackingIDResp, err := ftl.Call(ctx, shipping.ShipOrder, builtin.HttpRequest[shipping.ShippingRequest]{
 		Body: shipping.ShippingRequest{
 			Address: req.Body.Address,
-			Items:   cartItems.Body.Items,
+			Items:   cartItems.Items,
 		},
 	})
 	if err != nil {
-		return builtin.HttpResponse[Order]{}, fmt.Errorf("shipping error: %w", err)
+		return builtin.HttpResponse[Order, ErrorResponse]{
+			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("shipping error: %w", err)}),
+		}, nil
 	}
-	fmt.Printf("Shipped order, tracking ID %s", shippingTrackingID.Body.Id)
+
+	shippingTrackingID, ok := shippingTrackingIDResp.Body.Get()
+	if !ok {
+		return builtin.HttpResponse[Order, ErrorResponse]{
+			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to ship order %s", shippingTrackingIDResp.Error.MustGet())}),
+		}, nil
+	}
+
+	logger.Infof("Shipped order, tracking ID %s", shippingTrackingID.Id)
 
 	// Empty the cart, but don't worry about errors.
-	_, _ = ftl.Call(ctx, cart.EmptyCart, builtin.HttpRequest[cart.EmptyCartRequest]{Body: cart.EmptyCartRequest{UserID: req.Body.UserID}})
+	_, _ = ftl.Call(ctx, cart.EmptyCart, builtin.HttpRequest[cart.EmptyCartRequest]{Body: cart.EmptyCartRequest{UserId: req.Body.UserID}})
 
 	order := Order{
 		ID:                 uuid.New().String(),
-		ShippingTrackingID: shippingTrackingID.Body.Id,
-		ShippingCost:       shippingPrice.Body,
+		ShippingTrackingID: shippingTrackingID.Id,
+		ShippingCost:       shippingPrice,
 		ShippingAddress:    req.Body.Address,
 		Items:              orders,
 	}
@@ -134,5 +208,5 @@ func PlaceOrder(ctx context.Context, req builtin.HttpRequest[PlaceOrderRequest])
 	// 	s.Logger(ctx).Info("order confirmation email sent", "email", req.Email)
 	// }
 
-	return builtin.HttpResponse[Order]{Body: order}, nil
+	return builtin.HttpResponse[Order, ErrorResponse]{Body: ftl.Some(order)}, nil
 }

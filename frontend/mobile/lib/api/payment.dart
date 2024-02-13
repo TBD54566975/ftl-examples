@@ -10,16 +10,16 @@ import 'currency.dart' as currency;
 
 class CreditCardInfo{
   String number;
-  int cVV;
+  int cvv;
   int expirationYear;
   int expirationMonth;
 
-  CreditCardInfo({  required this.number,  required this.cVV,  required this.expirationYear,  required this.expirationMonth,  });
+  CreditCardInfo({  required this.number,  required this.cvv,  required this.expirationYear,  required this.expirationMonth,  });
 
   Map<String, dynamic> toJson() {
     return {
       'number': ((dynamic v) => v)(number),
-      'cVV': ((dynamic v) => v)(cVV),
+      'cvv': ((dynamic v) => v)(cvv),
       'expirationYear': ((dynamic v) => v)(expirationYear),
       'expirationMonth': ((dynamic v) => v)(expirationMonth),
     };
@@ -27,7 +27,7 @@ class CreditCardInfo{
 
   factory CreditCardInfo.fromJson(Map<String, dynamic> map) {
     return CreditCardInfo(
-      number: ((dynamic v) => v)(map['number']), cVV: ((dynamic v) => v)(map['cVV']), expirationYear: ((dynamic v) => v)(map['expirationYear']), expirationMonth: ((dynamic v) => v)(map['expirationMonth']), 
+      number: ((dynamic v) => v)(map['number']), cvv: ((dynamic v) => v)(map['cvv']), expirationYear: ((dynamic v) => v)(map['expirationYear']), expirationMonth: ((dynamic v) => v)(map['expirationMonth']), 
     );
   }
 }
@@ -53,19 +53,37 @@ class ChargeRequest{
 }
 
 class ChargeResponse{
-  String transactionID;
+  String transactionId;
 
-  ChargeResponse({  required this.transactionID,  });
+  ChargeResponse({  required this.transactionId,  });
 
   Map<String, dynamic> toJson() {
     return {
-      'transactionID': ((dynamic v) => v)(transactionID),
+      'transactionId': ((dynamic v) => v)(transactionId),
     };
   }
 
   factory ChargeResponse.fromJson(Map<String, dynamic> map) {
     return ChargeResponse(
-      transactionID: ((dynamic v) => v)(map['transactionID']), 
+      transactionId: ((dynamic v) => v)(map['transactionId']), 
+    );
+  }
+}
+
+class ErrorResponse{
+  String message;
+
+  ErrorResponse({  required this.message,  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'message': ((dynamic v) => v)(message),
+    };
+  }
+
+  factory ErrorResponse.fromJson(Map<String, dynamic> map) {
+    return ErrorResponse(
+      message: ((dynamic v) => v)(map['message']), 
     );
   }
 }

@@ -9,6 +9,7 @@ import (
 	"ftl/builtin"
 
 	"github.com/TBD54566975/ftl/examples/online-boutique/common"
+	"github.com/TBD54566975/ftl/go-runtime/ftl"
 	"golang.org/x/exp/maps"
 )
 
@@ -36,7 +37,7 @@ type AdResponse struct {
 
 //ftl:verb
 //ftl:ingress GET /ad
-func Get(ctx context.Context, req builtin.HttpRequest[AdRequest]) (builtin.HttpResponse[AdResponse], error) {
+func Get(ctx context.Context, req builtin.HttpRequest[AdRequest]) (builtin.HttpResponse[AdResponse, ftl.Unit], error) {
 	var ads []Ad
 	if len(req.Body.ContextKeys) > 0 {
 		ads = contextualAds(req.Body.ContextKeys)
@@ -44,8 +45,8 @@ func Get(ctx context.Context, req builtin.HttpRequest[AdRequest]) (builtin.HttpR
 		ads = randomAds()
 	}
 
-	return builtin.HttpResponse[AdResponse]{
-		Body: AdResponse{Name: "ad", Ads: ads},
+	return builtin.HttpResponse[AdResponse, ftl.Unit]{
+		Body: ftl.Some(AdResponse{Name: "ad", Ads: ads}),
 	}, nil
 }
 

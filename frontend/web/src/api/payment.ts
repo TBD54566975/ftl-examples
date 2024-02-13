@@ -13,7 +13,7 @@ import * as builtin from "./builtin"
 import * as currency from "./currency"
 export interface CreditCardInfo {
   number: string;
-  cVV: number;
+  cvv: number;
   expirationYear: number;
   expirationMonth: number;
 }
@@ -24,7 +24,11 @@ export interface ChargeRequest {
 }
 
 export interface ChargeResponse {
-  transactionID: string;
+  transactionId: string;
+}
+
+export interface ErrorResponse {
+  message: string;
 }
 
 
