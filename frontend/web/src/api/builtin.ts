@@ -18,10 +18,11 @@ export interface HttpRequest<Body> {
   body: Body;
 }
 
-export interface HttpResponse<Body> {
+export interface HttpResponse<Body, Error> {
   status: number;
   headers: Map<string, string[]>;
-  body: Body;
+  body: Body?;
+  error: Error?;
 }
 
 export interface Empty {

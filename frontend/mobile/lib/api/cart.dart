@@ -8,41 +8,41 @@ import 'builtin.dart' as builtin;
 
 
 class Item{
-  String productID;
+  String productId;
   int quantity;
 
-  Item({  required this.productID,  required this.quantity,  });
+  Item({  required this.productId,  required this.quantity,  });
 
   Map<String, dynamic> toJson() {
     return {
-      'productID': ((dynamic v) => v)(productID),
+      'productId': ((dynamic v) => v)(productId),
       'quantity': ((dynamic v) => v)(quantity),
     };
   }
 
   factory Item.fromJson(Map<String, dynamic> map) {
     return Item(
-      productID: ((dynamic v) => v)(map['productID']), quantity: ((dynamic v) => v)(map['quantity']), 
+      productId: ((dynamic v) => v)(map['productId']), quantity: ((dynamic v) => v)(map['quantity']), 
     );
   }
 }
 
 class AddItemRequest{
-  String userID;
+  String userId;
   Item item;
 
-  AddItemRequest({  required this.userID,  required this.item,  });
+  AddItemRequest({  required this.userId,  required this.item,  });
 
   Map<String, dynamic> toJson() {
     return {
-      'userID': ((dynamic v) => v)(userID),
+      'userId': ((dynamic v) => v)(userId),
       'item': ((dynamic v) => v.toJson())(item),
     };
   }
 
   factory AddItemRequest.fromJson(Map<String, dynamic> map) {
     return AddItemRequest(
-      userID: ((dynamic v) => v)(map['userID']), item: ((dynamic v) => Item.fromJson(v))(map['item']), 
+      userId: ((dynamic v) => v)(map['userId']), item: ((dynamic v) => Item.fromJson(v))(map['item']), 
     );
   }
 }
@@ -64,57 +64,57 @@ class AddItemResponse{
 }
 
 class GetCartRequest{
-  String userID;
+  String userId;
 
-  GetCartRequest({  required this.userID,  });
+  GetCartRequest({  required this.userId,  });
 
   Map<String, dynamic> toJson() {
     return {
-      'userID': ((dynamic v) => v)(userID),
+      'userId': ((dynamic v) => v)(userId),
     };
   }
 
   factory GetCartRequest.fromJson(Map<String, dynamic> map) {
     return GetCartRequest(
-      userID: ((dynamic v) => v)(map['userID']), 
+      userId: ((dynamic v) => v)(map['userId']), 
     );
   }
 }
 
 class Cart{
-  String userID;
+  String userId;
   List<Item> items;
 
-  Cart({  required this.userID,  required this.items,  });
+  Cart({  required this.userId,  required this.items,  });
 
   Map<String, dynamic> toJson() {
     return {
-      'userID': ((dynamic v) => v)(userID),
+      'userId': ((dynamic v) => v)(userId),
       'items': ((dynamic v) => v.map((v) => v.toJson()).cast<Item>().toList())(items),
     };
   }
 
   factory Cart.fromJson(Map<String, dynamic> map) {
     return Cart(
-      userID: ((dynamic v) => v)(map['userID']), items: ((dynamic v) => v.map((v) => Item.fromJson(v)).cast<Item>().toList())(map['items']), 
+      userId: ((dynamic v) => v)(map['userId']), items: ((dynamic v) => v.map((v) => Item.fromJson(v)).cast<Item>().toList())(map['items']), 
     );
   }
 }
 
 class EmptyCartRequest{
-  String userID;
+  String userId;
 
-  EmptyCartRequest({  required this.userID,  });
+  EmptyCartRequest({  required this.userId,  });
 
   Map<String, dynamic> toJson() {
     return {
-      'userID': ((dynamic v) => v)(userID),
+      'userId': ((dynamic v) => v)(userId),
     };
   }
 
   factory EmptyCartRequest.fromJson(Map<String, dynamic> map) {
     return EmptyCartRequest(
-      userID: ((dynamic v) => v)(map['userID']), 
+      userId: ((dynamic v) => v)(map['userId']), 
     );
   }
 }

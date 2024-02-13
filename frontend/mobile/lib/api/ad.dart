@@ -26,21 +26,21 @@ class AdRequest{
 }
 
 class Ad{
-  String redirectURL;
+  String redirectUrl;
   String text;
 
-  Ad({  required this.redirectURL,  required this.text,  });
+  Ad({  required this.redirectUrl,  required this.text,  });
 
   Map<String, dynamic> toJson() {
     return {
-      'redirectURL': ((dynamic v) => v)(redirectURL),
+      'redirectUrl': ((dynamic v) => v)(redirectUrl),
       'text': ((dynamic v) => v)(text),
     };
   }
 
   factory Ad.fromJson(Map<String, dynamic> map) {
     return Ad(
-      redirectURL: ((dynamic v) => v)(map['redirectURL']), text: ((dynamic v) => v)(map['text']), 
+      redirectUrl: ((dynamic v) => v)(map['redirectUrl']), text: ((dynamic v) => v)(map['text']), 
     );
   }
 }

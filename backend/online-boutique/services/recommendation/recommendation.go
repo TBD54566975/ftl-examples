@@ -9,7 +9,7 @@ import (
 	"ftl/builtin"
 	"ftl/productcatalog"
 
-	ftl "github.com/TBD54566975/ftl/go-runtime/sdk"
+	"github.com/TBD54566975/ftl/go-runtime/ftl"
 )
 
 type ListRequest struct {
@@ -21,12 +21,25 @@ type ListResponse struct {
 	ProductIDs []string
 }
 
+type ErrorResponse struct {
+	Message string `alias:"message"`
+}
+
 //ftl:verb
 //ftl:ingress GET /recommendation
-func List(ctx context.Context, req builtin.HttpRequest[ListRequest]) (builtin.HttpResponse[ListResponse], error) {
+func List(ctx context.Context, req builtin.HttpRequest[ListRequest]) (builtin.HttpResponse[ListResponse, ErrorResponse], error) {
 	cresp, err := ftl.Call(ctx, productcatalog.List, builtin.HttpRequest[productcatalog.ListRequest]{})
 	if err != nil {
-		return builtin.HttpResponse[ListResponse]{Body: ListResponse{}}, fmt.Errorf("%s: %w", "failed to retrieve product catalog", err)
+		return builtin.HttpResponse[ListResponse, ErrorResponse]{
+			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("%s: %w", "failed to retrieve product catalog", err)}),
+		}, nil
+	}
+
+	listResponse, ok := cresp.Body.Get()
+	if !ok {
+		return builtin.HttpResponse[ListResponse, ErrorResponse]{
+			Error: ftl.Some(ErrorResponse{Message: "failed to retrieve product catalog"}),
+		}, nil
 	}
 
 	// Remove user-provided products from the catalog, to avoid recommending
@@ -35,8 +48,8 @@ func List(ctx context.Context, req builtin.HttpRequest[ListRequest]) (builtin.Ht
 	for _, id := range req.Body.UserProductIDs {
 		userIDs[id] = struct{}{}
 	}
-	filtered := make([]string, 0, len(cresp.Body.Products))
-	for _, product := range cresp.Body.Products {
+	filtered := make([]string, 0, len(listResponse.Products))
+	for _, product := range listResponse.Products {
 		if _, ok := userIDs[product.Id]; ok {
 			continue
 		}
@@ -53,6 +66,6 @@ func List(ctx context.Context, req builtin.HttpRequest[ListRequest]) (builtin.Ht
 			break
 		}
 	}
-	return builtin.HttpResponse[ListResponse]{Body: ListResponse{ProductIDs: ret}}, nil
+	return builtin.HttpResponse[ListResponse, ErrorResponse]{Body: ftl.Some(ListResponse{ProductIDs: ret})}, nil
 
 }

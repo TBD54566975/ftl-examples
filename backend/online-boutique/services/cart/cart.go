@@ -4,6 +4,8 @@ package cart
 import (
 	"context"
 	"ftl/builtin"
+
+	"github.com/TBD54566975/ftl/go-runtime/ftl"
 )
 
 var store = NewStore()
@@ -27,10 +29,10 @@ type Cart struct {
 
 //ftl:verb
 //ftl:ingress POST /cart/add
-func AddItem(ctx context.Context, req builtin.HttpRequest[AddItemRequest]) (builtin.HttpResponse[AddItemResponse], error) {
+func AddItem(ctx context.Context, req builtin.HttpRequest[AddItemRequest]) (builtin.HttpResponse[AddItemResponse, ftl.Unit], error) {
 	store.Add(req.Body.UserID, req.Body.Item)
-	return builtin.HttpResponse[AddItemResponse]{
-		Body: AddItemResponse{},
+	return builtin.HttpResponse[AddItemResponse, ftl.Unit]{
+		Body: ftl.Some(AddItemResponse{}),
 	}, nil
 }
 
@@ -40,9 +42,9 @@ type GetCartRequest struct {
 
 //ftl:verb
 //ftl:ingress GET /cart
-func GetCart(ctx context.Context, req builtin.HttpRequest[GetCartRequest]) (builtin.HttpResponse[Cart], error) {
-	return builtin.HttpResponse[Cart]{
-		Body: Cart{Items: store.Get(req.Body.UserID), UserID: req.Body.UserID},
+func GetCart(ctx context.Context, req builtin.HttpRequest[GetCartRequest]) (builtin.HttpResponse[Cart, ftl.Unit], error) {
+	return builtin.HttpResponse[Cart, ftl.Unit]{
+		Body: ftl.Some(Cart{Items: store.Get(req.Body.UserID), UserID: req.Body.UserID}),
 	}, nil
 }
 
@@ -54,9 +56,9 @@ type EmptyCartResponse struct{}
 
 //ftl:verb
 //ftl:ingress POST /cart/empty
-func EmptyCart(ctx context.Context, req builtin.HttpRequest[EmptyCartRequest]) (builtin.HttpResponse[EmptyCartResponse], error) {
+func EmptyCart(ctx context.Context, req builtin.HttpRequest[EmptyCartRequest]) (builtin.HttpResponse[EmptyCartResponse, ftl.Unit], error) {
 	store.Empty(req.Body.UserID)
-	return builtin.HttpResponse[EmptyCartResponse]{
-		Body: EmptyCartResponse{},
+	return builtin.HttpResponse[EmptyCartResponse, ftl.Unit]{
+		Body: ftl.Some(EmptyCartResponse{}),
 	}, nil
 }

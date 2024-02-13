@@ -11,21 +11,13 @@ import (
 
 	"ftl/builtin"
 	"ftl/currency"
+
+	"github.com/TBD54566975/ftl/go-runtime/ftl"
 )
 
-type InvalidCreditCardErr struct{}
-
-func (e InvalidCreditCardErr) Error() string { return "invalid credit card" }
-
-type UnacceptedCreditCardErr struct{}
-
-func (e UnacceptedCreditCardErr) Error() string {
-	return "credit card not accepted; only VISA or MasterCard are accepted"
+type ErrorResponse struct {
+	Message string `alias:"message"`
 }
-
-type ExpiredCreditCardErr struct{}
-
-func (e ExpiredCreditCardErr) Error() string { return "credit card expired" }
 
 type CreditCardInfo struct {
 	Number          string
@@ -54,25 +46,25 @@ type ChargeResponse struct {
 
 //ftl:verb
 //ftl:ingress POST /payment/charge
-func Charge(ctx context.Context, req builtin.HttpRequest[ChargeRequest]) (builtin.HttpResponse[ChargeResponse], error) {
+func Charge(ctx context.Context, req builtin.HttpRequest[ChargeRequest]) (builtin.HttpResponse[ChargeResponse, ErrorResponse], error) {
 	card := req.Body.CreditCard
 	number := strings.ReplaceAll(card.Number, "-", "")
 	var company string
 	switch {
 	case len(number) < 4:
-		return builtin.HttpResponse[ChargeResponse]{Body: ChargeResponse{}}, InvalidCreditCardErr{}
+		return builtin.HttpResponse[ChargeResponse, ErrorResponse]{Error: ftl.Some(ErrorResponse{Message: "Invalid card number"})}, nil
 	case number[0] == '4':
 		company = "Visa"
 	case number[0] == '5':
 		company = "MasterCard"
 	default:
-		return builtin.HttpResponse[ChargeResponse]{Body: ChargeResponse{}}, InvalidCreditCardErr{}
+		return builtin.HttpResponse[ChargeResponse, ErrorResponse]{Error: ftl.Some(ErrorResponse{Message: "Invalid card number"})}, nil
 	}
 	if card.CVV < 100 || card.CVV > 9999 {
-		return builtin.HttpResponse[ChargeResponse]{Body: ChargeResponse{}}, InvalidCreditCardErr{}
+		return builtin.HttpResponse[ChargeResponse, ErrorResponse]{Error: ftl.Some(ErrorResponse{Message: "Invalid CVV number"})}, nil
 	}
 	if time.Date(card.ExpirationYear, card.ExpirationMonth, 0, 0, 0, 0, 0, time.Local).Before(time.Now()) {
-		return builtin.HttpResponse[ChargeResponse]{Body: ChargeResponse{}}, InvalidCreditCardErr{}
+		return builtin.HttpResponse[ChargeResponse, ErrorResponse]{Error: ftl.Some(ErrorResponse{Message: "Card expired"})}, nil
 	}
 
 	// Card is valid: process the transaction.
@@ -83,7 +75,7 @@ func Charge(ctx context.Context, req builtin.HttpRequest[ChargeRequest]) (builti
 		"currency", req.Body.Amount.CurrencyCode,
 		"amount", fmt.Sprintf("%d.%d", req.Body.Amount.Units, req.Body.Amount.Nanos),
 	)
-	return builtin.HttpResponse[ChargeResponse]{
-		Body: ChargeResponse{TransactionID: uuid.New().String()},
+	return builtin.HttpResponse[ChargeResponse, ErrorResponse]{
+		Body: ftl.Some(ChargeResponse{TransactionID: uuid.New().String()}),
 	}, nil
 }

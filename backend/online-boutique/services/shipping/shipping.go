@@ -9,6 +9,8 @@ import (
 	"ftl/builtin"
 	"ftl/cart"
 	"ftl/currency"
+
+	"github.com/TBD54566975/ftl/go-runtime/ftl"
 )
 
 type Address struct {
@@ -26,8 +28,8 @@ type ShippingRequest struct {
 
 //ftl:verb
 //ftl:ingress POST /shipping/quote
-func GetQuote(ctx context.Context, req builtin.HttpRequest[ShippingRequest]) (builtin.HttpResponse[currency.Money], error) {
-	return builtin.HttpResponse[currency.Money]{Body: moneyFromUSD(8.99)}, nil
+func GetQuote(ctx context.Context, req builtin.HttpRequest[ShippingRequest]) (builtin.HttpResponse[currency.Money, ftl.Unit], error) {
+	return builtin.HttpResponse[currency.Money, ftl.Unit]{Body: ftl.Some(moneyFromUSD(8.99))}, nil
 }
 
 type ShipOrderResponse struct {
@@ -36,9 +38,9 @@ type ShipOrderResponse struct {
 
 //ftl:verb
 //ftl:ingress POST /shipping/ship
-func ShipOrder(ctx context.Context, req builtin.HttpRequest[ShippingRequest]) (builtin.HttpResponse[ShipOrderResponse], error) {
+func ShipOrder(ctx context.Context, req builtin.HttpRequest[ShippingRequest]) (builtin.HttpResponse[ShipOrderResponse, ftl.Unit], error) {
 	baseAddress := fmt.Sprintf("%s, %s, %s", req.Body.Address.StreetAddress, req.Body.Address.City, req.Body.Address.State)
-	return builtin.HttpResponse[ShipOrderResponse]{Body: ShipOrderResponse{ID: createTrackingID(baseAddress)}}, nil
+	return builtin.HttpResponse[ShipOrderResponse, ftl.Unit]{Body: ftl.Some(ShipOrderResponse{ID: createTrackingID(baseAddress)})}, nil
 }
 
 func moneyFromUSD(value float64) currency.Money {

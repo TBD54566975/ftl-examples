@@ -29,7 +29,7 @@ class CartPage extends HookConsumerWidget {
                         itemBuilder: (context, index) {
                           final item = cart.items[index];
                           final product = products
-                              .firstWhere((p) => p.id == item.productID);
+                              .firstWhere((p) => p.id == item.productId);
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: ListTile(

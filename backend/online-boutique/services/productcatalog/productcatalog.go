@@ -11,6 +11,7 @@ import (
 	"ftl/currency"
 
 	"github.com/TBD54566975/ftl/examples/online-boutique/common"
+	"github.com/TBD54566975/ftl/go-runtime/ftl"
 )
 
 var (
@@ -37,11 +38,15 @@ type ListResponse struct {
 	Products []Product `json:"products"`
 }
 
+type ErrorResponse struct {
+	Message string `alias:"message"`
+}
+
 //ftl:verb
 //ftl:ingress GET /productcatalog
-func List(ctx context.Context, req builtin.HttpRequest[ListRequest]) (builtin.HttpResponse[ListResponse], error) {
-	return builtin.HttpResponse[ListResponse]{
-		Body: ListResponse{Products: database},
+func List(ctx context.Context, req builtin.HttpRequest[ListRequest]) (builtin.HttpResponse[ListResponse, ftl.Unit], error) {
+	return builtin.HttpResponse[ListResponse, ftl.Unit]{
+		Body: ftl.Some(ListResponse{Products: database}),
 	}, nil
 }
 
@@ -51,13 +56,13 @@ type GetRequest struct {
 
 //ftl:verb
 //ftl:ingress GET /productcatalog/{id}
-func Get(ctx context.Context, req builtin.HttpRequest[GetRequest]) (builtin.HttpResponse[Product], error) {
+func Get(ctx context.Context, req builtin.HttpRequest[GetRequest]) (builtin.HttpResponse[Product, ErrorResponse], error) {
 	for _, p := range database {
 		if p.ID == req.Body.ID {
-			return builtin.HttpResponse[Product]{Body: p}, nil
+			return builtin.HttpResponse[Product, ErrorResponse]{Body: ftl.Some(p)}, nil
 		}
 	}
-	return builtin.HttpResponse[Product]{Body: Product{}}, fmt.Errorf("product not found: %q", req.Body.ID)
+	return builtin.HttpResponse[Product, ErrorResponse]{Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("product not found: %q", req.Body.ID)})}, nil
 }
 
 type SearchRequest struct {

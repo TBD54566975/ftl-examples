@@ -13,17 +13,17 @@ import 'shipping.dart' as shipping;
 
 
 class PlaceOrderRequest{
-  String userID;
+  String userId;
   String userCurrency;
   shipping.Address address;
   String email;
   payment.CreditCardInfo creditCard;
 
-  PlaceOrderRequest({  required this.userID,  required this.userCurrency,  required this.address,  required this.email,  required this.creditCard,  });
+  PlaceOrderRequest({  required this.userId,  required this.userCurrency,  required this.address,  required this.email,  required this.creditCard,  });
 
   Map<String, dynamic> toJson() {
     return {
-      'userID': ((dynamic v) => v)(userID),
+      'userId': ((dynamic v) => v)(userId),
       'userCurrency': ((dynamic v) => v)(userCurrency),
       'address': ((dynamic v) => v.toJson())(address),
       'email': ((dynamic v) => v)(email),
@@ -33,7 +33,7 @@ class PlaceOrderRequest{
 
   factory PlaceOrderRequest.fromJson(Map<String, dynamic> map) {
     return PlaceOrderRequest(
-      userID: ((dynamic v) => v)(map['userID']), userCurrency: ((dynamic v) => v)(map['userCurrency']), address: ((dynamic v) => shipping.Address.fromJson(v))(map['address']), email: ((dynamic v) => v)(map['email']), creditCard: ((dynamic v) => payment.CreditCardInfo.fromJson(v))(map['creditCard']), 
+      userId: ((dynamic v) => v)(map['userId']), userCurrency: ((dynamic v) => v)(map['userCurrency']), address: ((dynamic v) => shipping.Address.fromJson(v))(map['address']), email: ((dynamic v) => v)(map['email']), creditCard: ((dynamic v) => payment.CreditCardInfo.fromJson(v))(map['creditCard']), 
     );
   }
 }
@@ -60,17 +60,17 @@ class OrderItem{
 
 class Order{
   String id;
-  String shippingTrackingID;
+  String shippingTrackingId;
   currency.Money shippingCost;
   shipping.Address shippingAddress;
   List<OrderItem> items;
 
-  Order({  required this.id,  required this.shippingTrackingID,  required this.shippingCost,  required this.shippingAddress,  required this.items,  });
+  Order({  required this.id,  required this.shippingTrackingId,  required this.shippingCost,  required this.shippingAddress,  required this.items,  });
 
   Map<String, dynamic> toJson() {
     return {
       'id': ((dynamic v) => v)(id),
-      'shippingTrackingID': ((dynamic v) => v)(shippingTrackingID),
+      'shippingTrackingId': ((dynamic v) => v)(shippingTrackingId),
       'shippingCost': ((dynamic v) => v.toJson())(shippingCost),
       'shippingAddress': ((dynamic v) => v.toJson())(shippingAddress),
       'items': ((dynamic v) => v.map((v) => v.toJson()).cast<OrderItem>().toList())(items),
@@ -79,7 +79,25 @@ class Order{
 
   factory Order.fromJson(Map<String, dynamic> map) {
     return Order(
-      id: ((dynamic v) => v)(map['id']), shippingTrackingID: ((dynamic v) => v)(map['shippingTrackingID']), shippingCost: ((dynamic v) => currency.Money.fromJson(v))(map['shippingCost']), shippingAddress: ((dynamic v) => shipping.Address.fromJson(v))(map['shippingAddress']), items: ((dynamic v) => v.map((v) => OrderItem.fromJson(v)).cast<OrderItem>().toList())(map['items']), 
+      id: ((dynamic v) => v)(map['id']), shippingTrackingId: ((dynamic v) => v)(map['shippingTrackingId']), shippingCost: ((dynamic v) => currency.Money.fromJson(v))(map['shippingCost']), shippingAddress: ((dynamic v) => shipping.Address.fromJson(v))(map['shippingAddress']), items: ((dynamic v) => v.map((v) => OrderItem.fromJson(v)).cast<OrderItem>().toList())(map['items']), 
+    );
+  }
+}
+
+class ErrorResponse{
+  String message;
+
+  ErrorResponse({  required this.message,  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'message': ((dynamic v) => v)(message),
+    };
+  }
+
+  factory ErrorResponse.fromJson(Map<String, dynamic> map) {
+    return ErrorResponse(
+      message: ((dynamic v) => v)(map['message']), 
     );
   }
 }
