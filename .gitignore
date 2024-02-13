@@ -13,3 +13,4 @@ dist/
 go.work
 go.work.sum
 _ftl/
+**/_ftl
