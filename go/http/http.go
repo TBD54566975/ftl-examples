@@ -20,7 +20,7 @@ type Nested struct {
 }
 
 type GetResponse struct {
-	Message string `alias:"random"`
+	Message string `alias:"msg"`
 	Nested  Nested `alias:"nested"`
 }
 
