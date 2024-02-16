@@ -11,21 +11,21 @@ import (
 )
 
 type GetRequest struct {
-	UserID string `alias:"userId"`
-	PostID string `alias:"postId"`
+	UserID string `json:"userId"`
+	PostID string `json:"postId"`
 }
 
 type Nested struct {
-	GoodStuff string `alias:"good_stuff"`
+	GoodStuff string `json:"good_stuff,omitempty"`
 }
 
 type GetResponse struct {
-	Message string `alias:"msg"`
-	Nested  Nested `alias:"nested"`
+	Message string `json:"msg"`
+	Nested  Nested `json:"nested"`
 }
 
 type ErrorResponse struct {
-	Error string `alias:"error"`
+	Error string `json:"error"`
 }
 
 // Example:       curl -i http://localhost:8892/ingress/http/users/123/posts?postId=456
@@ -52,12 +52,12 @@ func Get(ctx context.Context, req builtin.HttpRequest[GetRequest]) (builtin.Http
 }
 
 type PostRequest struct {
-	UserID int `alias:"user_id"`
-	PostID int `alias:"post_id"`
+	UserID int `json:"user_id"`
+	PostID int `json:"post_id"`
 }
 
 type PostResponse struct {
-	Success bool `alias:"success"`
+	Success bool `json:"success"`
 }
 
 // Example: curl -i --json '{"user_id": 123, "post_id": 345}' http://localhost:8892/ingress/http/users
@@ -73,8 +73,8 @@ func Post(ctx context.Context, req builtin.HttpRequest[PostRequest]) (builtin.Ht
 }
 
 type PutRequest struct {
-	UserID string `alias:"userId"`
-	PostID string `alias:"postId"`
+	UserID string `json:"userId,omitempty"`
+	PostID string `json:"postId"`
 }
 
 type PutResponse struct{}
@@ -91,7 +91,7 @@ func Put(ctx context.Context, req builtin.HttpRequest[PutRequest]) (builtin.Http
 }
 
 type DeleteRequest struct {
-	UserID string `alias:"userId"`
+	UserID string `json:"userId"`
 }
 
 type DeleteResponse struct{}

@@ -5,7 +5,7 @@ go 1.22.0
 replace github.com/TBD54566975/ftl/examples/online-boutique => ../..
 
 require (
-	github.com/TBD54566975/ftl v0.126.0
+	github.com/TBD54566975/ftl v0.128.0
 	github.com/TBD54566975/ftl/examples/online-boutique v0.0.0-00010101000000-000000000000
 	golang.org/x/exp v0.0.0-20240205201215-2c58cdc269a3
 )
