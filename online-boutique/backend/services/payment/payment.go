@@ -16,7 +16,7 @@ import (
 )
 
 type ErrorResponse struct {
-	Message string `alias:"message"`
+	Message string `json:"message"`
 }
 
 type CreditCardInfo struct {

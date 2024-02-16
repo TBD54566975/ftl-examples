@@ -2,7 +2,7 @@ module ftl/http
 
 go 1.22.0
 
-require github.com/TBD54566975/ftl v0.126.0
+require github.com/TBD54566975/ftl v0.128.1
 
 require (
 	connectrpc.com/connect v1.14.0 // indirect

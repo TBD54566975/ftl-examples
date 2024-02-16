@@ -22,7 +22,7 @@ type ListResponse struct {
 }
 
 type ErrorResponse struct {
-	Message string `alias:"message"`
+	Message string `json:"message"`
 }
 
 //ftl:verb
