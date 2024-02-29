@@ -102,7 +102,7 @@ type DeleteResponse struct{}
 //ftl:ingress http DELETE /http/users/{userId}
 func Delete(ctx context.Context, req builtin.HttpRequest[DeleteRequest]) (builtin.HttpResponse[DeleteResponse, ftl.Unit], error) {
 	return builtin.HttpResponse[DeleteResponse, ftl.Unit]{
-		Headers: map[string][]string{"Put": {"Header from FTL"}},
+		Headers: map[string][]string{"Delete": {"Header from FTL"}},
 		Body:    ftl.Some(DeleteResponse{}),
 	}, nil
 }
