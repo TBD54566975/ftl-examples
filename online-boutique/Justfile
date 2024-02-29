@@ -4,4 +4,4 @@ dev:
 
 # Start the example web frontend for online-boutique
 web:
-  cd frontend/web && npm install && npm run dev
+  cd web && npm install && npm run dev

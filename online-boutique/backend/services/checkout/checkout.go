@@ -5,6 +5,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/TBD54566975/ftl/examples/online-boutique/slices"
+
 	"github.com/google/uuid"
 
 	"ftl/builtin"
@@ -14,7 +16,6 @@ import (
 	"ftl/productcatalog"
 	"ftl/shipping"
 
-	"github.com/TBD54566975/ftl/backend/common/slices"
 	"github.com/TBD54566975/ftl/examples/online-boutique/common/money"
 
 	"github.com/TBD54566975/ftl/go-runtime/ftl"
