@@ -7,26 +7,6 @@ import 'ftl_client.dart';
 import 'builtin.dart' as builtin;
 
 
-class Item{
-  String productId;
-  int quantity;
-
-  Item({  required this.productId,  required this.quantity,  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'productId': ((dynamic v) => v)(productId),
-      'quantity': ((dynamic v) => v)(quantity),
-    };
-  }
-
-  factory Item.fromJson(Map<String, dynamic> map) {
-    return Item(
-      productId: ((dynamic v) => v)(map['productId']), quantity: ((dynamic v) => v)(map['quantity']), 
-    );
-  }
-}
-
 class AddItemRequest{
   String userId;
   Item item;
@@ -59,24 +39,6 @@ class AddItemResponse{
   factory AddItemResponse.fromJson(Map<String, dynamic> map) {
     return AddItemResponse(
       
-    );
-  }
-}
-
-class GetCartRequest{
-  String userId;
-
-  GetCartRequest({  required this.userId,  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'userId': ((dynamic v) => v)(userId),
-    };
-  }
-
-  factory GetCartRequest.fromJson(Map<String, dynamic> map) {
-    return GetCartRequest(
-      userId: ((dynamic v) => v)(map['userId']), 
     );
   }
 }
@@ -135,6 +97,44 @@ class EmptyCartResponse{
   }
 }
 
+class GetCartRequest{
+  String userId;
+
+  GetCartRequest({  required this.userId,  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'userId': ((dynamic v) => v)(userId),
+    };
+  }
+
+  factory GetCartRequest.fromJson(Map<String, dynamic> map) {
+    return GetCartRequest(
+      userId: ((dynamic v) => v)(map['userId']), 
+    );
+  }
+}
+
+class Item{
+  String productId;
+  int quantity;
+
+  Item({  required this.productId,  required this.quantity,  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'productId': ((dynamic v) => v)(productId),
+      'quantity': ((dynamic v) => v)(quantity),
+    };
+  }
+
+  factory Item.fromJson(Map<String, dynamic> map) {
+    return Item(
+      productId: ((dynamic v) => v)(map['productId']), quantity: ((dynamic v) => v)(map['quantity']), 
+    );
+  }
+}
+
 
 class CartClient {
   final FTLHttpClient ftlClient;
@@ -155,6 +155,19 @@ class CartClient {
     }
   }
 
+  Future<EmptyCartResponse> emptyCart(
+    EmptyCartRequest request, { 
+    Map<String, String>? headers,
+  }) async {
+    final response = await ftlClient.post('/cart/empty', request: request.toJson());
+    if (response.statusCode == 200) {
+      final body = json.decode(utf8.decode(response.bodyBytes));
+      return EmptyCartResponse.fromJson(body);
+    } else {
+      throw Exception('Failed to get emptyCart response');
+    }
+  }
+
   Future<Cart> getCart(
     GetCartRequest request, { 
     Map<String, String>? headers,
@@ -169,19 +182,6 @@ class CartClient {
       return Cart.fromJson(body);
     } else {
       throw Exception('Failed to get getCart response');
-    }
-  }
-
-  Future<EmptyCartResponse> emptyCart(
-    EmptyCartRequest request, { 
-    Map<String, String>? headers,
-  }) async {
-    final response = await ftlClient.post('/cart/empty', request: request.toJson());
-    if (response.statusCode == 200) {
-      final body = json.decode(utf8.decode(response.bodyBytes));
-      return EmptyCartResponse.fromJson(body);
-    } else {
-      throw Exception('Failed to get emptyCart response');
     }
   }
 }

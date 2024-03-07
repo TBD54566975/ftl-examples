@@ -10,21 +10,12 @@
 //
 //
 import * as builtin from "./builtin"
-export interface Item {
-  productId: string;
-  quantity: number;
-}
-
 export interface AddItemRequest {
   userId: string;
   item: Item;
 }
 
 export interface AddItemResponse {
-}
-
-export interface GetCartRequest {
-  userId: string;
 }
 
 export interface Cart {
@@ -37,6 +28,15 @@ export interface EmptyCartRequest {
 }
 
 export interface EmptyCartResponse {
+}
+
+export interface GetCartRequest {
+  userId: string;
+}
+
+export interface Item {
+  productId: string;
+  quantity: number;
 }
 
 
@@ -62,21 +62,6 @@ export class CartClient {
     return response.json();
   }
 
-  public async getCart(request: GetCartRequest): Promise<Cart> {
-    const path = `/cart?@json=${encodeURIComponent(JSON.stringify(request))}`;
-    const response = await fetch(`${this.baseUrl}${path}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
-
-    return response.json();
-  }
-
   public async emptyCart(request: EmptyCartRequest): Promise<EmptyCartResponse> {
     const path = `/cart/empty`;
     const response = await fetch(`${this.baseUrl}${path}`, {
@@ -86,6 +71,21 @@ export class CartClient {
       },
       body: JSON.stringify(request),
     });if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    return response.json();
+  }
+
+  public async getCart(request: GetCartRequest): Promise<Cart> {
+    const path = `/cart?@json=${encodeURIComponent(JSON.stringify(request))}`;
+    const response = await fetch(`${this.baseUrl}${path}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
     }
 

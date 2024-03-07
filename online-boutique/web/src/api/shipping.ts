@@ -20,13 +20,13 @@ export interface Address {
   zipCode: number;
 }
 
+export interface ShipOrderResponse {
+  id: string;
+}
+
 export interface ShippingRequest {
   address: Address;
   items: cart.Item[];
-}
-
-export interface ShipOrderResponse {
-  id: string;
 }
 
 

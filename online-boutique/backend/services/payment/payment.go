@@ -23,7 +23,7 @@ type CreditCardInfo struct {
 	Number          string
 	CVV             int
 	ExpirationYear  int
-	ExpirationMonth time.Month
+	ExpirationMonth int
 }
 
 // LastFour returns the last four digits of the card number.
@@ -63,7 +63,7 @@ func Charge(ctx context.Context, req builtin.HttpRequest[ChargeRequest]) (builti
 	if card.CVV < 100 || card.CVV > 9999 {
 		return builtin.HttpResponse[ChargeResponse, ErrorResponse]{Error: ftl.Some(ErrorResponse{Message: "Invalid CVV number"})}, nil
 	}
-	if time.Date(card.ExpirationYear, card.ExpirationMonth, 0, 0, 0, 0, 0, time.Local).Before(time.Now()) {
+	if time.Date(card.ExpirationYear, time.Month(card.ExpirationMonth), 0, 0, 0, 0, 0, time.Local).Before(time.Now()) {
 		return builtin.HttpResponse[ChargeResponse, ErrorResponse]{Error: ftl.Some(ErrorResponse{Message: "Card expired"})}, nil
 	}
 

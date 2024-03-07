@@ -9,6 +9,9 @@
 //  /_/   /_/ /____/            
 //
 //
+export interface Empty {
+}
+
 export interface HttpRequest<Body> {
   method: string;
   path: string;
@@ -23,9 +26,6 @@ export interface HttpResponse<Body, Error> {
   headers: Map<string, string[]>;
   body: Body?;
   error: Error?;
-}
-
-export interface Empty {
 }
 
 

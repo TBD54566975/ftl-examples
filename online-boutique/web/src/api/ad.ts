@@ -10,13 +10,13 @@
 //
 //
 import * as builtin from "./builtin"
-export interface AdRequest {
-  contextKeys: string[];
-}
-
 export interface Ad {
   redirectUrl: string;
   text: string;
+}
+
+export interface AdRequest {
+  contextKeys: string[];
 }
 
 export interface AdResponse {

@@ -8,30 +8,6 @@ import 'builtin.dart' as builtin;
 import 'currency.dart' as currency;
 
 
-class CreditCardInfo{
-  String number;
-  int cvv;
-  int expirationYear;
-  int expirationMonth;
-
-  CreditCardInfo({  required this.number,  required this.cvv,  required this.expirationYear,  required this.expirationMonth,  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'number': ((dynamic v) => v)(number),
-      'cvv': ((dynamic v) => v)(cvv),
-      'expirationYear': ((dynamic v) => v)(expirationYear),
-      'expirationMonth': ((dynamic v) => v)(expirationMonth),
-    };
-  }
-
-  factory CreditCardInfo.fromJson(Map<String, dynamic> map) {
-    return CreditCardInfo(
-      number: ((dynamic v) => v)(map['number']), cvv: ((dynamic v) => v)(map['cvv']), expirationYear: ((dynamic v) => v)(map['expirationYear']), expirationMonth: ((dynamic v) => v)(map['expirationMonth']), 
-    );
-  }
-}
-
 class ChargeRequest{
   currency.Money amount;
   CreditCardInfo creditCard;
@@ -66,6 +42,30 @@ class ChargeResponse{
   factory ChargeResponse.fromJson(Map<String, dynamic> map) {
     return ChargeResponse(
       transactionId: ((dynamic v) => v)(map['transactionId']), 
+    );
+  }
+}
+
+class CreditCardInfo{
+  String number;
+  int cvv;
+  int expirationYear;
+  int expirationMonth;
+
+  CreditCardInfo({  required this.number,  required this.cvv,  required this.expirationYear,  required this.expirationMonth,  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'number': ((dynamic v) => v)(number),
+      'cvv': ((dynamic v) => v)(cvv),
+      'expirationYear': ((dynamic v) => v)(expirationYear),
+      'expirationMonth': ((dynamic v) => v)(expirationMonth),
+    };
+  }
+
+  factory CreditCardInfo.fromJson(Map<String, dynamic> map) {
+    return CreditCardInfo(
+      number: ((dynamic v) => v)(map['number']), cvv: ((dynamic v) => v)(map['cvv']), expirationYear: ((dynamic v) => v)(map['expirationYear']), expirationMonth: ((dynamic v) => v)(map['expirationMonth']), 
     );
   }
 }

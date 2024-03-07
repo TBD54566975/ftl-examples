@@ -8,6 +8,24 @@ import 'builtin.dart' as builtin;
 import 'productcatalog.dart' as productcatalog;
 
 
+class ErrorResponse{
+  String message;
+
+  ErrorResponse({  required this.message,  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'message': ((dynamic v) => v)(message),
+    };
+  }
+
+  factory ErrorResponse.fromJson(Map<String, dynamic> map) {
+    return ErrorResponse(
+      message: ((dynamic v) => v)(map['message']), 
+    );
+  }
+}
+
 class ListRequest{
   String userId;
   List<String> userProductIDs;
@@ -42,24 +60,6 @@ class ListResponse{
   factory ListResponse.fromJson(Map<String, dynamic> map) {
     return ListResponse(
       productIDs: ((dynamic v) => v.map((v) => v).cast<String>().toList())(map['productIDs']), 
-    );
-  }
-}
-
-class ErrorResponse{
-  String message;
-
-  ErrorResponse({  required this.message,  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'message': ((dynamic v) => v)(message),
-    };
-  }
-
-  factory ErrorResponse.fromJson(Map<String, dynamic> map) {
-    return ErrorResponse(
-      message: ((dynamic v) => v)(map['message']), 
     );
   }
 }

@@ -11,7 +11,19 @@
 //
 import * as builtin from "./builtin"
 import * as currency from "./currency"
+export interface ErrorResponse {
+  message: string;
+}
+
+export interface GetRequest {
+  id: string;
+}
+
 export interface ListRequest {
+}
+
+export interface ListResponse {
+  products: Product[];
 }
 
 export interface Product {
@@ -21,18 +33,6 @@ export interface Product {
   picture: string;
   priceUsd: currency.Money;
   categories: string[];
-}
-
-export interface ListResponse {
-  products: Product[];
-}
-
-export interface GetRequest {
-  id: string;
-}
-
-export interface ErrorResponse {
-  message: string;
 }
 
 export interface SearchRequest {
@@ -51,8 +51,8 @@ export class ProductcatalogClient {
     this.baseUrl = baseUrl;
   }
 
-  public async list(request: ListRequest): Promise<ListResponse> {
-    const path = `/productcatalog?@json=${encodeURIComponent(JSON.stringify(request))}`;
+  public async get(request: GetRequest): Promise<Product> {
+    const path = `/productcatalog/id?@json=${encodeURIComponent(JSON.stringify(request))}`;
     const response = await fetch(`${this.baseUrl}${path}`, {
       method: 'GET',
       headers: {
@@ -66,8 +66,8 @@ export class ProductcatalogClient {
     return response.json();
   }
 
-  public async get(request: GetRequest): Promise<Product> {
-    const path = `/productcatalog/id?@json=${encodeURIComponent(JSON.stringify(request))}`;
+  public async list(request: ListRequest): Promise<ListResponse> {
+    const path = `/productcatalog?@json=${encodeURIComponent(JSON.stringify(request))}`;
     const response = await fetch(`${this.baseUrl}${path}`, {
       method: 'GET',
       headers: {
