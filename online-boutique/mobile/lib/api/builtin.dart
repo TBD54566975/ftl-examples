@@ -6,6 +6,22 @@ import 'dart:typed_data';
 import 'ftl_client.dart';
 
 
+class Empty{
+
+  Empty();
+
+  Map<String, dynamic> toJson() {
+    return {
+    };
+  }
+
+  factory Empty.fromJson(Map<String, dynamic> map) {
+    return Empty(
+      
+    );
+  }
+}
+
 class HttpRequest<Body>{
   String method;
   String path;
@@ -54,22 +70,6 @@ class HttpResponse<Body, Error>{
   factory HttpResponse.fromJson(Map<String, dynamic> map, Body Function(Map<String, dynamic>) bodyJsonFn, Error Function(Map<String, dynamic>) errorJsonFn) {
     return HttpResponse(
       status: ((dynamic v) => v)(map['status']), headers: ((dynamic v) => v.map((k, v) => MapEntry(k, v.map((v) => v).cast<String>().toList())).cast<String, List<String>>())(map['headers']), body: ((dynamic v) => v)(map['body']), error: ((dynamic v) => v)(map['error']), 
-    );
-  }
-}
-
-class Empty{
-
-  Empty();
-
-  Map<String, dynamic> toJson() {
-    return {
-    };
-  }
-
-  factory Empty.fromJson(Map<String, dynamic> map) {
-    return Empty(
-      
     );
   }
 }

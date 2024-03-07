@@ -7,24 +7,6 @@ import 'ftl_client.dart';
 import 'builtin.dart' as builtin;
 
 
-class AdRequest{
-  List<String> contextKeys;
-
-  AdRequest({  required this.contextKeys,  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'contextKeys': ((dynamic v) => v.map((v) => v).cast<String>().toList())(contextKeys),
-    };
-  }
-
-  factory AdRequest.fromJson(Map<String, dynamic> map) {
-    return AdRequest(
-      contextKeys: ((dynamic v) => v.map((v) => v).cast<String>().toList())(map['contextKeys']), 
-    );
-  }
-}
-
 class Ad{
   String redirectUrl;
   String text;
@@ -41,6 +23,24 @@ class Ad{
   factory Ad.fromJson(Map<String, dynamic> map) {
     return Ad(
       redirectUrl: ((dynamic v) => v)(map['redirectUrl']), text: ((dynamic v) => v)(map['text']), 
+    );
+  }
+}
+
+class AdRequest{
+  List<String> contextKeys;
+
+  AdRequest({  required this.contextKeys,  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'contextKeys': ((dynamic v) => v.map((v) => v).cast<String>().toList())(contextKeys),
+    };
+  }
+
+  factory AdRequest.fromJson(Map<String, dynamic> map) {
+    return AdRequest(
+      contextKeys: ((dynamic v) => v.map((v) => v).cast<String>().toList())(map['contextKeys']), 
     );
   }
 }

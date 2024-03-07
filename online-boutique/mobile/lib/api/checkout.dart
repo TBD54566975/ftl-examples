@@ -12,48 +12,20 @@ import 'productcatalog.dart' as productcatalog;
 import 'shipping.dart' as shipping;
 
 
-class PlaceOrderRequest{
-  String userId;
-  String userCurrency;
-  shipping.Address address;
-  String email;
-  payment.CreditCardInfo creditCard;
+class ErrorResponse{
+  String message;
 
-  PlaceOrderRequest({  required this.userId,  required this.userCurrency,  required this.address,  required this.email,  required this.creditCard,  });
+  ErrorResponse({  required this.message,  });
 
   Map<String, dynamic> toJson() {
     return {
-      'userId': ((dynamic v) => v)(userId),
-      'userCurrency': ((dynamic v) => v)(userCurrency),
-      'address': ((dynamic v) => v.toJson())(address),
-      'email': ((dynamic v) => v)(email),
-      'creditCard': ((dynamic v) => v.toJson())(creditCard),
+      'message': ((dynamic v) => v)(message),
     };
   }
 
-  factory PlaceOrderRequest.fromJson(Map<String, dynamic> map) {
-    return PlaceOrderRequest(
-      userId: ((dynamic v) => v)(map['userId']), userCurrency: ((dynamic v) => v)(map['userCurrency']), address: ((dynamic v) => shipping.Address.fromJson(v))(map['address']), email: ((dynamic v) => v)(map['email']), creditCard: ((dynamic v) => payment.CreditCardInfo.fromJson(v))(map['creditCard']), 
-    );
-  }
-}
-
-class OrderItem{
-  cart.Item item;
-  currency.Money cost;
-
-  OrderItem({  required this.item,  required this.cost,  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'item': ((dynamic v) => v.toJson())(item),
-      'cost': ((dynamic v) => v.toJson())(cost),
-    };
-  }
-
-  factory OrderItem.fromJson(Map<String, dynamic> map) {
-    return OrderItem(
-      item: ((dynamic v) => cart.Item.fromJson(v))(map['item']), cost: ((dynamic v) => currency.Money.fromJson(v))(map['cost']), 
+  factory ErrorResponse.fromJson(Map<String, dynamic> map) {
+    return ErrorResponse(
+      message: ((dynamic v) => v)(map['message']), 
     );
   }
 }
@@ -84,20 +56,48 @@ class Order{
   }
 }
 
-class ErrorResponse{
-  String message;
+class OrderItem{
+  cart.Item item;
+  currency.Money cost;
 
-  ErrorResponse({  required this.message,  });
+  OrderItem({  required this.item,  required this.cost,  });
 
   Map<String, dynamic> toJson() {
     return {
-      'message': ((dynamic v) => v)(message),
+      'item': ((dynamic v) => v.toJson())(item),
+      'cost': ((dynamic v) => v.toJson())(cost),
     };
   }
 
-  factory ErrorResponse.fromJson(Map<String, dynamic> map) {
-    return ErrorResponse(
-      message: ((dynamic v) => v)(map['message']), 
+  factory OrderItem.fromJson(Map<String, dynamic> map) {
+    return OrderItem(
+      item: ((dynamic v) => cart.Item.fromJson(v))(map['item']), cost: ((dynamic v) => currency.Money.fromJson(v))(map['cost']), 
+    );
+  }
+}
+
+class PlaceOrderRequest{
+  String userId;
+  String userCurrency;
+  shipping.Address address;
+  String email;
+  payment.CreditCardInfo creditCard;
+
+  PlaceOrderRequest({  required this.userId,  required this.userCurrency,  required this.address,  required this.email,  required this.creditCard,  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'userId': ((dynamic v) => v)(userId),
+      'userCurrency': ((dynamic v) => v)(userCurrency),
+      'address': ((dynamic v) => v.toJson())(address),
+      'email': ((dynamic v) => v)(email),
+      'creditCard': ((dynamic v) => v.toJson())(creditCard),
+    };
+  }
+
+  factory PlaceOrderRequest.fromJson(Map<String, dynamic> map) {
+    return PlaceOrderRequest(
+      userId: ((dynamic v) => v)(map['userId']), userCurrency: ((dynamic v) => v)(map['userCurrency']), address: ((dynamic v) => shipping.Address.fromJson(v))(map['address']), email: ((dynamic v) => v)(map['email']), creditCard: ((dynamic v) => payment.CreditCardInfo.fromJson(v))(map['creditCard']), 
     );
   }
 }

@@ -11,6 +11,10 @@
 //
 import * as builtin from "./builtin"
 import * as productcatalog from "./productcatalog"
+export interface ErrorResponse {
+  message: string;
+}
+
 export interface ListRequest {
   userId: string;
   userProductIDs: string[];
@@ -18,10 +22,6 @@ export interface ListRequest {
 
 export interface ListResponse {
   productIDs: string[];
-}
-
-export interface ErrorResponse {
-  message: string;
 }
 
 

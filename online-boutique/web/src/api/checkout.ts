@@ -15,17 +15,8 @@ import * as currency from "./currency"
 import * as payment from "./payment"
 import * as productcatalog from "./productcatalog"
 import * as shipping from "./shipping"
-export interface PlaceOrderRequest {
-  userId: string;
-  userCurrency: string;
-  address: shipping.Address;
-  email: string;
-  creditCard: payment.CreditCardInfo;
-}
-
-export interface OrderItem {
-  item: cart.Item;
-  cost: currency.Money;
+export interface ErrorResponse {
+  message: string;
 }
 
 export interface Order {
@@ -36,8 +27,17 @@ export interface Order {
   items: OrderItem[];
 }
 
-export interface ErrorResponse {
-  message: string;
+export interface OrderItem {
+  item: cart.Item;
+  cost: currency.Money;
+}
+
+export interface PlaceOrderRequest {
+  userId: string;
+  userCurrency: string;
+  address: shipping.Address;
+  email: string;
+  creditCard: payment.CreditCardInfo;
 }
 
 

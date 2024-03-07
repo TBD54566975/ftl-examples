@@ -11,13 +11,6 @@
 //
 import * as builtin from "./builtin"
 import * as currency from "./currency"
-export interface CreditCardInfo {
-  number: string;
-  cvv: number;
-  expirationYear: number;
-  expirationMonth: number;
-}
-
 export interface ChargeRequest {
   amount: currency.Money;
   creditCard: CreditCardInfo;
@@ -25,6 +18,13 @@ export interface ChargeRequest {
 
 export interface ChargeResponse {
   transactionId: string;
+}
+
+export interface CreditCardInfo {
+  number: string;
+  cvv: number;
+  expirationYear: number;
+  expirationMonth: number;
 }
 
 export interface ErrorResponse {

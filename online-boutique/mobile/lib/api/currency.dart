@@ -7,6 +7,26 @@ import 'ftl_client.dart';
 import 'builtin.dart' as builtin;
 
 
+class ConvertRequest{
+  Money from;
+  String toCode;
+
+  ConvertRequest({  required this.from,  required this.toCode,  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'from': ((dynamic v) => v.toJson())(from),
+      'toCode': ((dynamic v) => v)(toCode),
+    };
+  }
+
+  factory ConvertRequest.fromJson(Map<String, dynamic> map) {
+    return ConvertRequest(
+      from: ((dynamic v) => Money.fromJson(v))(map['from']), toCode: ((dynamic v) => v)(map['toCode']), 
+    );
+  }
+}
+
 class GetSupportedCurrenciesRequest{
 
   GetSupportedCurrenciesRequest();
@@ -63,32 +83,25 @@ class Money{
   }
 }
 
-class ConvertRequest{
-  Money from;
-  String toCode;
-
-  ConvertRequest({  required this.from,  required this.toCode,  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'from': ((dynamic v) => v.toJson())(from),
-      'toCode': ((dynamic v) => v)(toCode),
-    };
-  }
-
-  factory ConvertRequest.fromJson(Map<String, dynamic> map) {
-    return ConvertRequest(
-      from: ((dynamic v) => Money.fromJson(v))(map['from']), toCode: ((dynamic v) => v)(map['toCode']), 
-    );
-  }
-}
-
 
 class CurrencyClient {
   final FTLHttpClient ftlClient;
 
   CurrencyClient({required this.ftlClient});
 
+
+  Future<Money> convert(
+    ConvertRequest request, { 
+    Map<String, String>? headers,
+  }) async {
+    final response = await ftlClient.post('/currency/convert', request: request.toJson());
+    if (response.statusCode == 200) {
+      final body = json.decode(utf8.decode(response.bodyBytes));
+      return Money.fromJson(body);
+    } else {
+      throw Exception('Failed to get convert response');
+    }
+  }
 
   Future<GetSupportedCurrenciesResponse> getSupportedCurrencies(
     GetSupportedCurrenciesRequest request, { 
@@ -104,19 +117,6 @@ class CurrencyClient {
       return GetSupportedCurrenciesResponse.fromJson(body);
     } else {
       throw Exception('Failed to get getSupportedCurrencies response');
-    }
-  }
-
-  Future<Money> convert(
-    ConvertRequest request, { 
-    Map<String, String>? headers,
-  }) async {
-    final response = await ftlClient.post('/currency/convert', request: request.toJson());
-    if (response.statusCode == 200) {
-      final body = json.decode(utf8.decode(response.bodyBytes));
-      return Money.fromJson(body);
-    } else {
-      throw Exception('Failed to get convert response');
     }
   }
 }

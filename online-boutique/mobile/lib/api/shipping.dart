@@ -35,6 +35,24 @@ class Address{
   }
 }
 
+class ShipOrderResponse{
+  String id;
+
+  ShipOrderResponse({  required this.id,  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': ((dynamic v) => v)(id),
+    };
+  }
+
+  factory ShipOrderResponse.fromJson(Map<String, dynamic> map) {
+    return ShipOrderResponse(
+      id: ((dynamic v) => v)(map['id']), 
+    );
+  }
+}
+
 class ShippingRequest{
   Address address;
   List<cart.Item> items;
@@ -51,24 +69,6 @@ class ShippingRequest{
   factory ShippingRequest.fromJson(Map<String, dynamic> map) {
     return ShippingRequest(
       address: ((dynamic v) => Address.fromJson(v))(map['address']), items: ((dynamic v) => v.map((v) => cart.Item.fromJson(v)).cast<cart.Item>().toList())(map['items']), 
-    );
-  }
-}
-
-class ShipOrderResponse{
-  String id;
-
-  ShipOrderResponse({  required this.id,  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': ((dynamic v) => v)(id),
-    };
-  }
-
-  factory ShipOrderResponse.fromJson(Map<String, dynamic> map) {
-    return ShipOrderResponse(
-      id: ((dynamic v) => v)(map['id']), 
     );
   }
 }
