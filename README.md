@@ -58,6 +58,9 @@ Add a new item to your cart using the command-line:
 
 ```bash
 curl -i --json '{"userId": "Larry", "item": {"productId": "OLJCESPC7Z", "quantity": 1}}' localhost:8892/ingress/cart/add
+```
+Response
+```
 HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
 Vary: Origin
@@ -88,6 +91,25 @@ curl --json '{
   }
 }
 ' localhost:8892/ingress/checkout/Larry | jq .
+```
+Response
+```
+{
+  "id": "19031e2c-a4b3-49fe-bbb8-464bc8707559",
+  "shippingAddress": {
+    "city": "Mountain View",
+    "country": "USA",
+    "state": "CA",
+    "streetAddress": "1600 Amphitheatre Parkway",
+    "zipCode": 94043
+  },
+  "shippingCost": {
+    "currencyCode": "AUD",
+    "nanos": 387449163,
+    "units": 11
+  },
+  "shippingTrackingId": "LS-44971-224078566"
+}
 ```
 
 Open up the [FTL console](http://localhost:8892). This will let you navigate the
