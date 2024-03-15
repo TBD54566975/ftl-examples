@@ -113,7 +113,7 @@ class CheckoutClient {
     PlaceOrderRequest request, { 
     Map<String, String>? headers,
   }) async {
-    final response = await ftlClient.post('/checkout/userID', request: request.toJson());
+    final response = await ftlClient.post('/checkout/userId', request: request.toJson());
     if (response.statusCode == 200) {
       final body = json.decode(utf8.decode(response.bodyBytes));
       return Order.fromJson(body);
