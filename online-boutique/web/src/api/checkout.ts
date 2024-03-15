@@ -49,7 +49,7 @@ export class CheckoutClient {
   }
 
   public async placeOrder(request: PlaceOrderRequest): Promise<Order> {
-    const path = `/checkout/userID`;
+    const path = `/checkout/userId`;
     const response = await fetch(`${this.baseUrl}${path}`, {
       method: 'POST',
       headers: {

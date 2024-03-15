@@ -56,8 +56,8 @@ Flutter is better run via an [IDE](https://docs.flutter.dev/get-started/editor?t
 
 Add a new item to your cart using the command-line:
 
-```
-$ curl -i --json '{"userId": "Larry", "item": {"productId": "OLJCESPC7Z", "quantity": 1}}' localhost:8892/ingress/cart/add
+```bash
+curl -i --json '{"userId": "Larry", "item": {"productId": "OLJCESPC7Z", "quantity": 1}}' localhost:8892/ingress/cart/add
 HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
 Vary: Origin
@@ -69,9 +69,8 @@ Content-Length: 2
 
 Checkout the cart:
 
-```
-$ curl -i --json '{
-  "userId": "Larry",
+```bash
+curl --json '{
   "userCurrency": "AUD",
   "address": {
     "streetAddress": "1600 Amphitheatre Parkway",
@@ -88,27 +87,10 @@ $ curl -i --json '{
     "expirationMonth": 6
   }
 }
-' localhost:8892/ingress/checkout/Larry | jq
-{
-  "id": "2816d988-7ded-44ba-a3b7-05f82d195e86",
-  "items": [],
-  "shippingAddress": {
-    "city": "Mountain View",
-    "country": "USA",
-    "state": "CA",
-    "streetAddress": "1600 Amphitheatre Parkway",
-    "zipCode": 94043
-  },
-  "shippingCost": {
-    "currencyCode": "AUD",
-    "nanos": 387449163,
-    "units": 11
-  },
-  "shippingTrackingId": "BD-44063-229389876"
-}
+' localhost:8892/ingress/checkout/Larry | jq .
 ```
 
-Open up the [FTL console](https://localhost:8892). This will let you navigate the
+Open up the [FTL console](http://localhost:8892). This will let you navigate the
 logs, traces and structure of the FTL modules running locally. In the timeline,
 if you click on one of the calls that we just issued you should see a call trace.
 
