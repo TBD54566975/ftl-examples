@@ -46,7 +46,7 @@ type GetSupportedCurrenciesResponse struct {
 	CurrencyCodes []string
 }
 
-//ftl:verb
+//ftl:export
 //ftl:ingress GET /currency/supported
 func GetSupportedCurrencies(ctx context.Context, req builtin.HttpRequest[GetSupportedCurrenciesRequest]) (builtin.HttpResponse[GetSupportedCurrenciesResponse, ftl.Unit], error) {
 	return builtin.HttpResponse[GetSupportedCurrenciesResponse, ftl.Unit]{
@@ -59,7 +59,7 @@ type ConvertRequest struct {
 	ToCode string
 }
 
-//ftl:verb
+//ftl:export
 //ftl:ingress POST /currency/convert
 func Convert(ctx context.Context, req builtin.HttpRequest[ConvertRequest]) (builtin.HttpResponse[Money, string], error) {
 	from := req.Body.From

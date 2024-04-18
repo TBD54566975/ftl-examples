@@ -22,10 +22,11 @@ function dartType(t) {
 
     case "Array":
       return `List<${dartType(t.element)}>`;
-    
+
     case "Bytes":
       return `Uint8List`;
 
+    case "Ref":
     case "VerbRef":
     case "DataRef":
       if (context.name === t.module) {
@@ -47,7 +48,7 @@ function dartType(t) {
   }
 }
 
-function dartTypeParameters (t) {
+function dartTypeParameters(t) {
   if (t.length == 0) {
     return "";
   }
@@ -84,7 +85,7 @@ function fromJsonFields(t) {
         response += `${field.name}: ${tp.name.toLowerCase()}JsonFn(map['${field.name}']), `;
         isTypeParameter = true;
         break;
-        
+
       }
     }
     if (!isTypeParameter) {
@@ -103,6 +104,7 @@ function deserialize(t) {
     case "Map":
       return `v.map((k, v) => MapEntry(k, ${deserialize(t.value)})).cast<${dartType(t.key)}, ${dartType(t.value)}>()`;
 
+    case "Ref":
     case "DataRef":
       return `${dartType(t)}.fromJson(v)`;
 
@@ -119,6 +121,7 @@ function serialize(t) {
     case "Map":
       return `v.map((k, v) => MapEntry(k, ${serialize(t.value)})).cast<${dartType(t.key)}, ${dartType(t.value)}>()`;
 
+    case "Ref":
     case "DataRef":
       return "v.toJson()";
 

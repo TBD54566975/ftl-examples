@@ -8,7 +8,7 @@ import xyz.block.ftl.Json
 import xyz.block.ftl.Context
 import xyz.block.ftl.HttpIngress
 import xyz.block.ftl.Method
-import xyz.block.ftl.Verb
+import xyz.block.ftl.Export
 
 data class GetRequest(
     @Json("userId") val userID: String,
@@ -44,7 +44,7 @@ data class DeleteRequest(
 
 // Example:       curl -i http://localhost:8892/ingress/http/users/123/posts?postId=456
 // Error Example: curl -i http://localhost:8892/ingress/http/users/000/posts?postId=456
-@Verb
+@Export
 @HttpIngress(Method.GET, "/http/users/{userId}/posts")
 fun `get`(context: Context, req: HttpRequest<GetRequest>): HttpResponse<GetResponse, String> {
     return HttpResponse(
@@ -58,7 +58,7 @@ fun `get`(context: Context, req: HttpRequest<GetRequest>): HttpResponse<GetRespo
 }
 
 // Example: curl -i --json '{"user_id": 123, "post_id": 345}' http://localhost:8892/ingress/http/users
-@Verb
+@Export
 @HttpIngress(Method.POST, "/http/users")
 fun post(context: Context, req: HttpRequest<PostRequest>): HttpResponse<PostResponse, String> {
     return HttpResponse(
@@ -69,7 +69,7 @@ fun post(context: Context, req: HttpRequest<PostRequest>): HttpResponse<PostResp
 }
 
 // Example: curl -X PUT http://localhost:8892/ingress/http/users/123 -d '{"postId": "123"}'
-@Verb
+@Export
 @HttpIngress(Method.PUT, "/http/users/{userId}")
 fun put(context: Context, req: HttpRequest<PutRequest>): HttpResponse<Empty, String> {
     return HttpResponse(
@@ -80,7 +80,7 @@ fun put(context: Context, req: HttpRequest<PutRequest>): HttpResponse<Empty, Str
 }
 
 // Example: curl -X DELETE http://localhost:8892/ingress/http/users/123
-@Verb
+@Export
 @HttpIngress(Method.DELETE, "/http/users/{userId}")
 fun delete(context: Context, req: HttpRequest<DeleteRequest>): HttpResponse<Empty, String> {
     return HttpResponse(

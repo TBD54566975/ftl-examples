@@ -26,6 +26,7 @@ function tsType(t) {
     case "Bytes":
       return "Uint8Array";
 
+    case 'Ref':
     case 'VerbRef':
     case 'DataRef':
       if (context.name === t.module) {
@@ -51,7 +52,7 @@ function bodyType(t) {
   return tsType(t.typeParameters[0]);
 }
 
-function tsTypeParameters (t) {
+function tsTypeParameters(t) {
   if (t.length == 0) {
     return "";
   }

@@ -49,3 +49,15 @@ jobs:
       - name: Test
         working-directory: ./online-boutique/web
         run: npm run test
+  backend:
+    name: Build Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Init Hermit
+        uses: cashapp/activate-hermit@v1
+        with:
+          cache: true
+      - name: Build
+        run: ftl build --log-level=trace online-boutique
