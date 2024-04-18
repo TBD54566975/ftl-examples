@@ -6,8 +6,8 @@ connectrpc.com/otelconnect v0.7.0 h1:ZH55ZZtcJOTKWWLy3qmL4Pam4RzRWBJFOqTPyAqCXkY
 connectrpc.com/otelconnect v0.7.0/go.mod h1:Bt2ivBymHZHqxvo4HkJ0EwHuUzQN6k2l0oH+mp/8nwc=
 github.com/BurntSushi/toml v1.3.2 h1:o7IhLm0Msx3BaB+n3Ag7L8EVlByGnpq14C4YWiu/gL8=
 github.com/BurntSushi/toml v1.3.2/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
-github.com/TBD54566975/ftl v0.179.1 h1:fm9co3MLPylMQEIEZT/dkOA0rj2+Yk/Gx1nhs9f8oCI=
-github.com/TBD54566975/ftl v0.179.1/go.mod h1:wxdoAEH8g3aRWtmIwkcr84ilxluMiiNrlrkot3P5FYc=
+github.com/TBD54566975/ftl v0.180.1 h1:FmtFzkkcanjMnLc2vaoQyjqV8nM5b8b32N4Uexz4f9k=
+github.com/TBD54566975/ftl v0.180.1/go.mod h1:wxdoAEH8g3aRWtmIwkcr84ilxluMiiNrlrkot3P5FYc=
 github.com/TBD54566975/scaffolder v0.8.0 h1:DWl1K3dWcLsOPAYGQGPQXtffrml6XCB0tF05JdpMqZU=
 github.com/TBD54566975/scaffolder v0.8.0/go.mod h1:Ab/jbQ4q8EloYL0nbkdh2DVvkGc4nxr1OcIbdMpTxxg=
 github.com/alecthomas/assert/v2 v2.8.1 h1:YCxnYR6jjpfnEK5AK5SysALKdUEBPGH4Y7As6tBnDw0=
