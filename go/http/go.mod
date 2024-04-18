@@ -1,6 +1,6 @@
 module ftl/http
 
-go 1.22.0
+go 1.22.2
 
 require github.com/TBD54566975/ftl v0.128.1
 

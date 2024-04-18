@@ -1,10 +1,10 @@
 module ftl/shipping
 
-go 1.22.0
+go 1.22.2
 
 replace github.com/TBD54566975/ftl/examples/online-boutique => ../..
 
-require github.com/TBD54566975/ftl v0.147.0
+require github.com/TBD54566975/ftl v0.179.1
 
 require (
 	connectrpc.com/connect v1.15.0 // indirect

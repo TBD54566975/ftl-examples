@@ -1,6 +1,6 @@
 module ftl/checkout
 
-go 1.22.0
+go 1.22.2
 
 replace github.com/TBD54566975/ftl/examples/online-boutique => ../..
 

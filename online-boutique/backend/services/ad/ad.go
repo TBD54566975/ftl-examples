@@ -8,9 +8,10 @@ import (
 
 	"ftl/builtin"
 
+	"golang.org/x/exp/maps"
+
 	"github.com/TBD54566975/ftl/examples/online-boutique/common"
 	"github.com/TBD54566975/ftl/go-runtime/ftl"
-	"golang.org/x/exp/maps"
 )
 
 const maxAdsToServe = 2
@@ -35,7 +36,7 @@ type AdResponse struct {
 	Ads  []Ad
 }
 
-//ftl:verb
+//ftl:export
 //ftl:ingress GET /ad
 func Get(ctx context.Context, req builtin.HttpRequest[AdRequest]) (builtin.HttpResponse[AdResponse, ftl.Unit], error) {
 	var ads []Ad
