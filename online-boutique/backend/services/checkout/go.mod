@@ -5,7 +5,7 @@ go 1.22.2
 replace github.com/TBD54566975/ftl/examples/online-boutique => ../..
 
 require (
-	github.com/TBD54566975/ftl v0.180.1
+	github.com/TBD54566975/ftl v0.181.1
 	github.com/TBD54566975/ftl/examples/online-boutique v0.0.0-00010101000000-000000000000
 	github.com/google/uuid v1.6.0
 )
