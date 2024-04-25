@@ -25,8 +25,7 @@ type ErrorResponse struct {
 	Message string `json:"message"`
 }
 
-//ftl:export
-//ftl:ingress GET /recommendation
+//ftl:public http GET /recommendation
 func List(ctx context.Context, req builtin.HttpRequest[ListRequest]) (builtin.HttpResponse[ListResponse, ErrorResponse], error) {
 	cresp, err := ftl.Call(ctx, productcatalog.List, builtin.HttpRequest[productcatalog.ListRequest]{})
 	if err != nil {

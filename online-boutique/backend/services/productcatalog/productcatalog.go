@@ -42,8 +42,7 @@ type ErrorResponse struct {
 	Message string `json:"message"`
 }
 
-//ftl:export
-//ftl:ingress GET /productcatalog
+//ftl:public http GET /productcatalog
 func List(ctx context.Context, req builtin.HttpRequest[ListRequest]) (builtin.HttpResponse[ListResponse, ftl.Unit], error) {
 	return builtin.HttpResponse[ListResponse, ftl.Unit]{
 		Body: ftl.Some(ListResponse{Products: database}),
@@ -54,8 +53,7 @@ type GetRequest struct {
 	ID string
 }
 
-//ftl:export
-//ftl:ingress GET /productcatalog/{id}
+//ftl:public http GET /productcatalog/{id}
 func Get(ctx context.Context, req builtin.HttpRequest[GetRequest]) (builtin.HttpResponse[Product, ErrorResponse], error) {
 	for _, p := range database {
 		if p.ID == req.Body.ID {
@@ -73,7 +71,7 @@ type SearchResponse struct {
 	Results []Product
 }
 
-//ftl:export
+//ftl:internal
 func Search(ctx context.Context, req SearchRequest) (SearchResponse, error) {
 	out := SearchResponse{}
 	q := strings.ToLower(req.Query)

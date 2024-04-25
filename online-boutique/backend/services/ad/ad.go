@@ -36,8 +36,7 @@ type AdResponse struct {
 	Ads  []Ad
 }
 
-//ftl:export
-//ftl:ingress GET /ad
+//ftl:public http GET /ad
 func Get(ctx context.Context, req builtin.HttpRequest[AdRequest]) (builtin.HttpResponse[AdResponse, ftl.Unit], error) {
 	var ads []Ad
 	if len(req.Body.ContextKeys) > 0 {
