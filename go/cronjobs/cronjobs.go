@@ -1,4 +1,3 @@
-//ftl:module cronjobs
 package cronjobs
 
 import (

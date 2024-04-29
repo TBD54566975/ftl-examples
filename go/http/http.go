@@ -1,4 +1,3 @@
-//ftl:module http
 package http
 
 import (
@@ -31,7 +30,6 @@ type ErrorResponse struct {
 // Example:       curl -i http://localhost:8892/ingress/http/users/123/posts?postId=456
 // Error Example: curl -i http://localhost:8892/ingress/http/users/000/posts?postId=456
 //
-//ftl:export
 //ftl:ingress http GET /http/users/{userId}/posts
 func Get(ctx context.Context, req builtin.HttpRequest[GetRequest]) (builtin.HttpResponse[GetResponse, ErrorResponse], error) {
 	if req.Body.UserID == "000" {
@@ -62,7 +60,6 @@ type PostResponse struct {
 
 // Example: curl -i --json '{"user_id": 123, "post_id": 345}' http://localhost:8892/ingress/http/users
 //
-//ftl:export
 //ftl:ingress http POST /http/users
 func Post(ctx context.Context, req builtin.HttpRequest[PostRequest]) (builtin.HttpResponse[PostResponse, ftl.Unit], error) {
 	return builtin.HttpResponse[PostResponse, ftl.Unit]{
@@ -81,7 +78,6 @@ type PutResponse struct{}
 
 // Example: curl -X PUT http://localhost:8892/ingress/http/users/123 -d '{"postId": "123"}'
 //
-//ftl:export
 //ftl:ingress http PUT /http/users/{userId}
 func Put(ctx context.Context, req builtin.HttpRequest[PutRequest]) (builtin.HttpResponse[PutResponse, ftl.Unit], error) {
 	return builtin.HttpResponse[PutResponse, ftl.Unit]{
@@ -98,7 +94,6 @@ type DeleteResponse struct{}
 
 // Example: curl -X DELETE http://localhost:8892/ingress/http/users/123
 //
-//ftl:export
 //ftl:ingress http DELETE /http/users/{userId}
 func Delete(ctx context.Context, req builtin.HttpRequest[DeleteRequest]) (builtin.HttpResponse[DeleteResponse, ftl.Unit], error) {
 	return builtin.HttpResponse[DeleteResponse, ftl.Unit]{

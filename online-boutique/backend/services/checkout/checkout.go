@@ -47,7 +47,6 @@ type ErrorResponse struct {
 	Message string `json:"message"`
 }
 
-//ftl:export
 //ftl:ingress POST /checkout/{userId}
 func PlaceOrder(ctx context.Context, req builtin.HttpRequest[PlaceOrderRequest]) (builtin.HttpResponse[Order, ErrorResponse], error) {
 	logger := ftl.LoggerFromContext(ctx)

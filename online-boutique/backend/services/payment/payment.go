@@ -44,7 +44,6 @@ type ChargeResponse struct {
 	TransactionID string
 }
 
-//ftl:export
 //ftl:ingress POST /payment/charge
 func Charge(ctx context.Context, req builtin.HttpRequest[ChargeRequest]) (builtin.HttpResponse[ChargeResponse, ErrorResponse], error) {
 	card := req.Body.CreditCard
