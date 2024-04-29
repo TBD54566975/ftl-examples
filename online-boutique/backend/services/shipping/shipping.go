@@ -26,7 +26,6 @@ type ShippingRequest struct {
 	Items   []cart.Item
 }
 
-//ftl:export
 //ftl:ingress POST /shipping/quote
 func GetQuote(ctx context.Context, req builtin.HttpRequest[ShippingRequest]) (builtin.HttpResponse[currency.Money, ftl.Unit], error) {
 	return builtin.HttpResponse[currency.Money, ftl.Unit]{Body: ftl.Some(moneyFromUSD(8.99))}, nil
@@ -36,7 +35,6 @@ type ShipOrderResponse struct {
 	ID string
 }
 
-//ftl:export
 //ftl:ingress POST /shipping/ship
 func ShipOrder(ctx context.Context, req builtin.HttpRequest[ShippingRequest]) (builtin.HttpResponse[ShipOrderResponse, ftl.Unit], error) {
 	baseAddress := fmt.Sprintf("%s, %s, %s", req.Body.Address.StreetAddress, req.Body.Address.City, req.Body.Address.State)

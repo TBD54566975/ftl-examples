@@ -27,7 +27,6 @@ type Cart struct {
 	Items  []Item `json:"items"`
 }
 
-//ftl:export
 //ftl:ingress POST /cart/add
 func AddItem(ctx context.Context, req builtin.HttpRequest[AddItemRequest]) (builtin.HttpResponse[AddItemResponse, ftl.Unit], error) {
 	store.Add(req.Body.UserID, req.Body.Item)
@@ -40,7 +39,6 @@ type GetCartRequest struct {
 	UserID string `json:"userID"`
 }
 
-//ftl:export
 //ftl:ingress GET /cart
 func GetCart(ctx context.Context, req builtin.HttpRequest[GetCartRequest]) (builtin.HttpResponse[Cart, ftl.Unit], error) {
 	return builtin.HttpResponse[Cart, ftl.Unit]{
@@ -54,7 +52,6 @@ type EmptyCartRequest struct {
 
 type EmptyCartResponse struct{}
 
-//ftl:export
 //ftl:ingress POST /cart/empty
 func EmptyCart(ctx context.Context, req builtin.HttpRequest[EmptyCartRequest]) (builtin.HttpResponse[EmptyCartResponse, ftl.Unit], error) {
 	store.Empty(req.Body.UserID)

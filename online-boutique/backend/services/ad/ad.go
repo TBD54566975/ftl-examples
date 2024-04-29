@@ -36,7 +36,6 @@ type AdResponse struct {
 	Ads  []Ad
 }
 
-//ftl:export
 //ftl:ingress GET /ad
 func Get(ctx context.Context, req builtin.HttpRequest[AdRequest]) (builtin.HttpResponse[AdResponse, ftl.Unit], error) {
 	var ads []Ad
