@@ -1,4 +1,3 @@
-//ftl:module http
 package http
 
 import (
