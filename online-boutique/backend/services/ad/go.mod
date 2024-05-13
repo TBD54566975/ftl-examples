@@ -5,19 +5,16 @@ go 1.22.2
 replace github.com/TBD54566975/ftl/examples/online-boutique => ../..
 
 require (
-	github.com/TBD54566975/ftl v0.187.0
+	github.com/TBD54566975/ftl v0.210.0
 	github.com/TBD54566975/ftl/examples/online-boutique v0.0.0-00010101000000-000000000000
-	golang.org/x/exp v0.0.0-20240222234643-814bf88cf225
+	golang.org/x/exp v0.0.0-20240416160154-fe59bbe5cc7f
 )
 
 require (
-	connectrpc.com/connect v1.16.0 // indirect
+	connectrpc.com/connect v1.16.1 // indirect
 	connectrpc.com/grpcreflect v1.2.0 // indirect
 	connectrpc.com/otelconnect v0.7.0 // indirect
-	github.com/BurntSushi/toml v1.3.2 // indirect
-	github.com/TBD54566975/scaffolder v0.8.0 // indirect
 	github.com/alecthomas/concurrency v0.0.2 // indirect
-	github.com/alecthomas/kong v0.9.0 // indirect
 	github.com/alecthomas/participle/v2 v2.1.1 // indirect
 	github.com/alecthomas/types v0.14.0 // indirect
 	github.com/alessio/shellescape v1.4.2 // indirect
@@ -43,7 +40,7 @@ require (
 	golang.org/x/mod v0.17.0 // indirect
 	golang.org/x/net v0.24.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
-	golang.org/x/sys v0.19.0 // indirect
+	golang.org/x/sys v0.20.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	google.golang.org/protobuf v1.33.0 // indirect
+	google.golang.org/protobuf v1.34.0 // indirect
 )
