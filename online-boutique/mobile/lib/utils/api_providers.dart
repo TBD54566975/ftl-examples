@@ -6,7 +6,7 @@ import 'package:online_boutique/api/ftl_client.dart';
 import 'package:online_boutique/api/productcatalog.dart';
 
 final ftlClientProvider = Provider<FTLHttpClient>((ref) {
-  final host = Platform.isAndroid ? '10.0.2.2' : 'localhost:8892';
+  final host = Platform.isAndroid ? '10.0.2.2' : 'localhost:8891';
 
   FTLHttpClient.initialize(
     baseUrl: host,

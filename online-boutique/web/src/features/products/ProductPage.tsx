@@ -8,7 +8,7 @@ export const ProductPage = () => {
   const [product, setProduct] = useState<Product | undefined>()
 
   useEffect(() => {
-    const productsClient = new ProductcatalogClient('http://localhost:8892/ingress')
+    const productsClient = new ProductcatalogClient('http://localhost:8891')
     productsClient.list({}).then((response) => {
       setProduct(response.products.find((product) => product.id.toLowerCase() === productId?.toLowerCase()))
     })

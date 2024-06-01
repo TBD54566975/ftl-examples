@@ -30,9 +30,9 @@ class FTLHttpClient {
   }) {
     Uri uri;
     if (requestJson == null || requestJson.isEmpty) {
-      uri = Uri.http("localhost:8892", '/ingress$path');
+      uri = Uri.http("localhost:8891", path);
     } else {
-      uri = Uri.http("localhost:8892", '/ingress$path', {'@json': requestJson});
+      uri = Uri.http("localhost:8891", path, {'@json': requestJson});
     }
     return httpClient.get(uri, headers: headers);
   }
@@ -43,7 +43,7 @@ class FTLHttpClient {
     Map<String, String>? headers,
   }) {
     return httpClient.post(
-      Uri.http(baseUrl, '/ingress$path'),
+      Uri.http(baseUrl, path),
       body: json.encode(request),
       headers: headers,
     );

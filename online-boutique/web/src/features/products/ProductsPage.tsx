@@ -7,7 +7,7 @@ export const ProductsPage = () => {
   const [products, setProducts] = useState<Product[]>([])
 
   useEffect(() => {
-    const productsClient = new ProductcatalogClient('http://localhost:8892/ingress')
+    const productsClient = new ProductcatalogClient('http://localhost:8891')
     productsClient.list({}).then((response) => setProducts(response.products || []))
   }, [])
 
