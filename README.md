@@ -57,9 +57,11 @@ Flutter is better run via an [IDE](https://docs.flutter.dev/get-started/editor?t
 Add a new item to your cart using the command-line:
 
 ```bash
-curl -i --json '{"userId": "Larry", "item": {"productId": "OLJCESPC7Z", "quantity": 1}}' localhost:8892/ingress/cart/add
+curl -i --json '{"userId": "Larry", "item": {"productId": "OLJCESPC7Z", "quantity": 1}}' localhost:8891/cart/add
 ```
+
 Response
+
 ```
 HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
@@ -90,9 +92,11 @@ curl --json '{
     "expirationMonth": 6
   }
 }
-' localhost:8892/ingress/checkout/Larry | jq .
+' localhost:8891/checkout/Larry | jq .
 ```
+
 Response
+
 ```
 {
   "id": "19031e2c-a4b3-49fe-bbb8-464bc8707559",
