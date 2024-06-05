@@ -27,12 +27,6 @@ React frontend.
 
 ### Preparation
 
-After activating the Hermit environment (see above), change into the online-boutique directory:
-
-```
-cd online-boutique
-```
-
 To see a list of commands that can be run, run `just --list` in the root of the
 project.
 
