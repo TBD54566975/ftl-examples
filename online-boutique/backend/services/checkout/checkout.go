@@ -54,7 +54,7 @@ func PlaceOrder(ctx context.Context, req builtin.HttpRequest[PlaceOrderRequest])
 	cartItemsResp, err := ftl.Call(ctx, cart.GetCart, builtin.HttpRequest[cart.GetCartRequest]{Body: cart.GetCartRequest{UserId: req.Body.UserID}})
 	if err != nil {
 		return builtin.HttpResponse[Order, ErrorResponse]{
-			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to get cart for user %q: %w", req.Body.UserID, err)}),
+			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to get cart for user %q: %s", req.Body.UserID, err)}),
 		}, nil
 	}
 
@@ -70,7 +70,7 @@ func PlaceOrder(ctx context.Context, req builtin.HttpRequest[PlaceOrderRequest])
 		productsResp, err := ftl.Call(ctx, productcatalog.Get, builtin.HttpRequest[productcatalog.GetRequest]{Body: productcatalog.GetRequest{Id: item.ProductId}})
 		if err != nil {
 			return builtin.HttpResponse[Order, ErrorResponse]{
-				Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to get product #%q: %w", item.ProductId, err)}),
+				Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to get product #%q: %s", item.ProductId, err)}),
 			}, nil
 		}
 
@@ -89,7 +89,7 @@ func PlaceOrder(ctx context.Context, req builtin.HttpRequest[PlaceOrderRequest])
 		})
 		if err != nil {
 			return builtin.HttpResponse[Order, ErrorResponse]{
-				Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to convert price of %q to %s: %w", item.ProductId, req.Body.UserCurrency, err)}),
+				Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to convert price of %q to %s: %s", item.ProductId, req.Body.UserCurrency, err)}),
 			}, nil
 		}
 
@@ -114,7 +114,7 @@ func PlaceOrder(ctx context.Context, req builtin.HttpRequest[PlaceOrderRequest])
 	})
 	if err != nil {
 		return builtin.HttpResponse[Order, ErrorResponse]{
-			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to get shipping quote: %w", err)}),
+			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to get shipping quote: %s", err)}),
 		}, nil
 	}
 
@@ -158,7 +158,9 @@ func PlaceOrder(ctx context.Context, req builtin.HttpRequest[PlaceOrderRequest])
 	})
 	if err != nil {
 		return builtin.HttpResponse[Order, ErrorResponse]{
-			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("failed to charge card: %w", err)}),
+			Error: ftl.Some(ErrorResponse{
+				Message: fmt.Sprintf("failed to charge card: %s", err),
+			}),
 		}, nil
 	}
 
@@ -179,7 +181,7 @@ func PlaceOrder(ctx context.Context, req builtin.HttpRequest[PlaceOrderRequest])
 	})
 	if err != nil {
 		return builtin.HttpResponse[Order, ErrorResponse]{
-			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("shipping error: %w", err)}),
+			Error: ftl.Some(ErrorResponse{Message: fmt.Sprintf("shipping error: %s", err)}),
 		}, nil
 	}
 
