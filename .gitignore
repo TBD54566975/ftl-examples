@@ -16,3 +16,4 @@ _ftl/
 **/_ftl
 types.ftl.go
 .ftl.lock
+.ftl/
